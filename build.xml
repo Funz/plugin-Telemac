@@ -19,7 +19,7 @@
         </pathconvert>
         
         <java dir="${test.cases.dir}" classpathref="test.classpath"
-              classname="org.funz.ioplugin.ExtendedIOPlugin" fork="true"  >
+              classname="org.funz.ioplugin.ExtendedIOPlugin" fork="true" failonerror="true" >
             <assertions>
                 <enable/>
             </assertions>
