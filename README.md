@@ -148,7 +148,7 @@ It supports the following syntax and features:
 
   * Output
     * file type supported: *.slf `RESULTS FILE` (Seraphin format)
-    * read any ``VARIABLES FOR GRAPHIC PRINTOUTS` at poi.txt points, along time
+    * read any `VARIABLES FOR GRAPHIC PRINTOUTS` at poi.txt points, along time
     * will return time dependant arrays like: `H_xylowerright`=`[2.3383100032806396,2.3411474227905273,2.3438708782196045,2.3465609550476074,...]`
 
 
