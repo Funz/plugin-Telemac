@@ -33,15 +33,16 @@ before_deploy:
   - ant clean dist
   - cd dist; zip -r ../plugin-Telemac.zip *; cd ..
   - ant install
-  - zip -r FunzTelemac.zip FunzTelemac
+  - zip -r Funz-Telemac.zip Funz-Telemac
   
 deploy:
   provider: releases
-  name: FunzTelemac
   api_key:
     secure: q4ZBw+UDkPruE+1aHTp2C4VAx05Lr41jodnH2UEmxLFTrLD1+r/r3J6tu4PtNL+m98uYEJ8hD7KGVi+S0UJPGNDkHfd2PVOjkZbgla/rgfAkZYa9+I7w6is/xBRgs1lBUPx+n1ZIbP1s7ML7gG1N9Po6sK8mSob0v1Y6hVN7F+8+qbG0r7wHlBiYAkMZIhL6YRVICQW2KTrL1R0R/GhpPShyjELBstMR7ONlHsx6KrddFaG9eOyemqvSpIkLDwUQ5Zdp8t4++4rn6lxNw8a6XkNKN2V39QZ/1t/YDYkors58olx0/n3wESzFF3XOqNOGx3jFEG+ZrtkhbrABtXcDwtIcZbv+Boc+LGtg0akzmtFzH177bAvHHre3kCWrB6W86pMKNpMJnYVGkXFfJTqBChzstVX6Wy/j7zJfnlOlAvc26eNs+MlHf3qJfDElI6jGY5n6AUil3nK8gOYzV0AX3A7GgtEzkviNliGKop4PB0NVA1u6gR1NcUpXhKWokZpOBUtshDumTb7DmKfbChcDb1H4EmUHDShTYUTNijc+TypJP3sbftb5wEiLYPy77i0O7bjebCYUPbbFLfL+2KFuHKgSfot+lk1ixxJu+/r+84mO9lx6zyqeNGaSX7gBaZHR7jVypA77x5AXq1qMwbDzcm8jtUhhW4WENM/I3T735Uw=
   file_glob: true
-  file: *.zip
+  file:
+    - Funz-*.zip
+    - plugin-*.zip
   on:
     tags: true
     branch: master
