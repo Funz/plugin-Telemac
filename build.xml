@@ -2,32 +2,17 @@
 
     <property name="code.name" value="Telemac" />
 
-    <property name="funz.version" value="1.9" />
+    <property name="funz.release" value="v1.9" />
 
     <property name="build_plugin.xml" location="../funz-profile/build_plugin.xml" />
     <import file="${build_plugin.xml}"/>
 
     <property file="${code.name}.properties"/>
 	
-    <target name="dist" depends="dist-iopluginjar"/> <!-- dist-ioplugin: copy just the plugin ascii files -->
+    <target name="dist" depends="dist-iopluginjar"/> <!-- dist-ioplugin: copy the plugin jar files -->
 	        
-    <!-- launch tests -->
-    <target name="test" depends="dist" >
-        <dirset id="tests" dir="${test.cases.dir}" includes="*"/>
-        <pathconvert pathsep=" " property="tests.list" refid="tests">
-            <map from="${test.cases.dir}/" to=""/>
-        </pathconvert>
-        
-        <java dir="${test.cases.dir}" classpathref="test.classpath"
-              classname="org.funz.ioplugin.ExtendedIOPlugin" fork="true" failonerror="true" >
-            <assertions>
-                <enable/>
-            </assertions>
-            <arg value="org.funz.${code.name}.${code.name}IOPlugin" />
-            <arg line="${tests.list}" />
-        </java>
-    </target>
-    
+    <target name="test" depends="test-iopluginjar"/> <!-- test-iopluginjar: test the java plugin -->   
+	
     <target name="super.install" depends="install"/>
     <target name="super.clean" depends="clean"/>
     <target name="super.run-reference-cases" depends="run-reference-cases"/>
