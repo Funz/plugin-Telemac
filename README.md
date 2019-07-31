@@ -6,7 +6,7 @@ This plugin is dedicated to launch R calculations from Funz.
 It supports the following syntax and features:
 
   * Input
-    * file type supported: *.R, any other format for resources
+    * file type supported: *.cas, any other format for resources (.slf, ...)
     * parameter syntax: 
       * variable syntax: `$(...)`
       * formula syntax: `@{...}`
