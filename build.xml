@@ -1,6 +1,7 @@
 <project name="plugin-Telemac" default="test" basedir=".">
 
     <property name="code.name" value="Telemac" />
+    <property name="install.dir" value="${basedir}/Funz-${code.name}" />
 
     <property name="funz.release" value="v1.9" />
 
@@ -13,7 +14,8 @@
 	        
     <target name="test" depends="test-iopluginjar"/> <!-- test-iopluginjar: test the java plugin -->   
 	
-    <target name="super.install" depends="install"/>
+    <target name="install" depends="install-plugin"/> <!-- test-ioplugin: test the plugin ascii files -->
+
     <target name="super.clean" depends="clean"/>
     <target name="super.run-reference-cases" depends="run-reference-cases"/>
 
