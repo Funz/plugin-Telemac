@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import org.funz.Constants;
 
 /**
  *
@@ -19,7 +20,7 @@ public class SerafinAdapterProxy {
 
     static {
         try {
-            File jar = new File("lib", "fudaa-prepro-1.3.0.jar");
+            File jar = new File(Constants.APP_INSTALL_DIR.getPath() + File.separator +"lib", "fudaa-prepro-1.3.0.jar");
             if (!jar.isFile()) {
                 throw new Exception("Cannot access file: " + jar);
             }
