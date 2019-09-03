@@ -30,13 +30,13 @@
         <!--property name="tests.p" refid="tests"/>
         <echo message="${tests.p}"/-->
 
-        <pathconvert pathsep="${line.separator}" property="tests.list" refid="tests">
+        <pathconvert pathsep="${line.separator}" property="testclass.list" refid="tests">
             <map from="${build.dir}/" to=""/>
         </pathconvert>
         <!--echo message="${tests.list}"/>
         <echo message="================"/-->
         
-        <for list="${tests.list}" param="test.class" delimiter="${line.separator}">
+        <for list="${testclass.list}" param="test.class" delimiter="${line.separator}">
             <sequential>
                 <echo message="@{test.class}"/>
                 <echo message="========================================="/>
