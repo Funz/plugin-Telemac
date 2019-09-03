@@ -1,9 +1,7 @@
 package org.funz.Telemac;
 
-import com.vividsolutions.jts.geom.Coordinate;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,12 +9,11 @@ import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
-import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
-import org.funz.util.ASCII;
+//import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
+//import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
+import org.funz.Telemac.SerafinAdapterProxy.Coordinate;
 import org.funz.util.Parser;
 import static org.funz.util.ParserUtils.getASCIIFileLines;
-import org.openide.util.Exceptions;
 
 /**
  *
@@ -108,7 +105,7 @@ public class TelemacHelper {
         return null;
     }
 
-    static String[] readFichiersDe(File cas, String what) {
+    public static String[] readFichiersDe(File cas, String what) {
         List<String> fde = new LinkedList<String>();
         String[] lines = getASCIIFileLines(cas);
         for (int i = 0; i < lines.length; i++) {
@@ -127,14 +124,15 @@ public class TelemacHelper {
         return fde.toArray(new String[fde.size()]);
     }
 
-    static Map<String, double[]> extractPOIfromRES(File cas, Properties poi) throws IOException {
+    static Map<String, double[]> extractPOIfromRES(File cas, Properties poi) throws Exception {
         Map<String, double[]> dat = new HashMap<String, double[]>();
 
-        SerafinNewReader r = new SerafinNewReader();
-        System.err.println("In " + new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
-        r.setFile(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
-        SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
-
+//        SerafinNewReader r = new SerafinNewReader();
+//        System.err.println("In " + new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
+//        r.setFile(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
+//        SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
+        SerafinAdapterProxy s = new SerafinAdapterProxy(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
+        
         dat.put("T", s.getPasDeTemps());
         System.err.println("  containing " + s.getPasDeTemps().length + " time steps");
 
@@ -177,7 +175,7 @@ public class TelemacHelper {
         return dat;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SerafinNewReader r = new SerafinNewReader();
         r.setFile(new File("src/test/resources/t2d_garonne_hydro_init_eng.cas/output/r2d_garonne_MC.res"));
         SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
@@ -191,9 +189,9 @@ public class TelemacHelper {
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-    }
+    }*/
 
-    static void writeCSVfromRES(File cas, Properties poi) throws IOException {
+    static void writeCSVfromRES(File cas, Properties poi) throws Exception {
         Map<String, double[]> dat = extractPOIfromRES(cas, poi);
         for (String d : dat.keySet()) {
             write(new File(cas.getParentFile(), d + ".csv"), printDoubleArray(dat.get(d)));
