@@ -14,14 +14,17 @@
 	     
     <target name="test" depends="test-iopluginjar"> <!-- test-iopluginjar: test the java plugin -->  
         <property name="unit.test.jar" value="../funz-profile/lib/concutest-junit-4.7-withrt.jar" />   
-	<javac classpathref="plugin.classpath"
-               deprecation="true"
+	<javac deprecation="true"
                source="${java.compiler.version}"
                target="${java.compiler.version}"
                srcdir="${test.dir}"
                destdir="${build.dir}"
                encoding="ISO-8859-1"
-               debug="true" />	    
+               debug="true">
+	     <classpath refid="plugin.classpath" />
+             <classpath path="${build.dir}" />
+             <classpath path="${unit.test.jar}" />
+	</javac>
 	    
         <fileset id="tests" dir="${build.dir}" includes="**/*Test.class" />
         <!--property name="tests.p" refid="tests"/>
