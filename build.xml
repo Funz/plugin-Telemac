@@ -50,7 +50,8 @@
                 <!--record name="${test.class.id}.txt" action="start" /-->
                 <!--<jacoco:coverage>-->  
                 <java classname="${test.class.id}" fork="true" timeout="360000" failonerror="false" resultproperty="@{test.class}.failed">
-                    <classpath refid="plugin.classpath" />
+                    <sysproperty key="app.home" value="${dist.dir}"/> <!-- setup root dir for static dependencies (eg. jar) -->
+		    <classpath refid="plugin.classpath" />
                     <classpath path="${build.dir}" />
                     <classpath path="${unit.test.jar}" />
                     <assertions>
