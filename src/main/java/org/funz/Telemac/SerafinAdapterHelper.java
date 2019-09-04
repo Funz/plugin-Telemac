@@ -25,9 +25,9 @@ public class SerafinAdapterHelper {
                 throw new Exception("Cannot access file: " + jar);
             }
             URLClassLoader child = new URLClassLoader(
-                    new URL[]{jar.toURI().toURL()},
+                    new URL[]{jar.toURI().toURL()});/*,
                     (URLClassLoader) ClassLoader.getSystemClassLoader()
-            );
+            );*/
             Class classSerafinNewReader = Class.forName("org.fudaa.dodico.ef.io.serafin.SerafinNewReader", true, child);
             serafinNewReader = classSerafinNewReader.newInstance();
             serafinNewReader_setFile = classSerafinNewReader.getMethod("setFile", File.class);
