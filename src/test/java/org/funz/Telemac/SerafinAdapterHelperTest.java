@@ -17,10 +17,10 @@ import org.junit.Test;
  *
  * @author richet
  */
-public class SerafinAdapterProxyTest {
+public class SerafinAdapterHelperTest {
 
     public static void main(String args[]) {
-        org.junit.runner.JUnitCore.main(SerafinAdapterProxyTest.class.getName());
+        org.junit.runner.JUnitCore.main(SerafinAdapterHelperTest.class.getName());
     }
 
     static Map<String, double[]> extractPOIfromRES_PROXY(File cas, Properties poi) throws Exception {
@@ -30,7 +30,7 @@ public class SerafinAdapterProxyTest {
 //        System.err.println("In " + new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
 //        r.setFile(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
 //        SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
-        SerafinAdapterProxy s = new SerafinAdapterProxy(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
+        SerafinAdapterHelper s = new SerafinAdapterHelper(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
 
         dat.put("T", s.getPasDeTemps());
         System.err.println("  containing " + s.getPasDeTemps().length + " time steps");
@@ -45,7 +45,7 @@ public class SerafinAdapterProxyTest {
                     String cs = poi.get(p).toString();
                     double x = Double.parseDouble(cs.substring(0, cs.indexOf(",")));
                     double y = Double.parseDouble(cs.substring(cs.indexOf(",") + 1));
-                    int ie = s.getGrid().getEltContainingXY(x, y, new SerafinAdapterProxy.Coordinate(0.0, 0.0));
+                    int ie = s.getGrid().getEltContainingXY(x, y, new SerafinAdapterHelper.Coordinate(0.0, 0.0));
                     int[] Ix = s.getGrid().getElement(ie).getIndices();
                     int ix = -1;
                     double min_dist2 = Double.MAX_VALUE;
@@ -81,7 +81,7 @@ public class SerafinAdapterProxyTest {
         System.err.println("In " + new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
         r.setFile(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
         SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
-//        SerafinAdapterProxy s = new SerafinAdapterProxy(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
+//        SerafinAdapterHelper s = new SerafinAdapterHelper(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
 
         dat.put("T", s.getPasDeTemps());
         System.err.println("  containing " + s.getPasDeTemps().length + " time steps");
@@ -132,7 +132,7 @@ public class SerafinAdapterProxyTest {
         r.setFile(new File("src/test/cases/t2d_breach.cas/output/r2d_breach.slf"));
         SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
 
-        SerafinAdapterProxy sp = new SerafinAdapterProxy(new File("src/test/cases/t2d_breach.cas/output/r2d_breach.slf"));
+        SerafinAdapterHelper sp = new SerafinAdapterHelper(new File("src/test/cases/t2d_breach.cas/output/r2d_breach.slf"));
         assert Arrays.deepEquals(s.getVariables(), sp.getVariables()) : Arrays.asList(s.getVariables()) + " != " + Arrays.asList(sp.getVariables());
 
         Properties p = new Properties();
