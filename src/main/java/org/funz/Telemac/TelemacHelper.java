@@ -11,7 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 //import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
 //import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
-import org.funz.Telemac.SerafinAdapterProxy.Coordinate;
+import org.funz.Telemac.SerafinAdapterHelper.Coordinate;
 import org.funz.util.Parser;
 import static org.funz.util.ParserUtils.getASCIIFileLines;
 
@@ -131,7 +131,7 @@ public class TelemacHelper {
 //        System.err.println("In " + new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
 //        r.setFile(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
 //        SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
-        SerafinAdapterProxy s = new SerafinAdapterProxy(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
+        SerafinAdapterHelper s = new SerafinAdapterHelper(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
         
         dat.put("T", s.getPasDeTemps());
         System.err.println("  containing " + s.getPasDeTemps().length + " time steps");

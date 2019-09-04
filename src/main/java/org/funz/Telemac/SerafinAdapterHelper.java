@@ -10,7 +10,7 @@ import org.funz.Constants;
  *
  * @author richet
  */
-public class SerafinAdapterProxy {
+public class SerafinAdapterHelper {
 
     static Object serafinNewReader;
     static Method serafinNewReader_setFile;
@@ -39,7 +39,7 @@ public class SerafinAdapterProxy {
         }
     }
 
-    public SerafinAdapterProxy(File source) throws Exception {
+    public SerafinAdapterHelper(File source) throws Exception {
         serafinNewReader_setFile.invoke(serafinNewReader, source);
         Object read = serafinNewReader_read.invoke(serafinNewReader);
         serafinAdapter = read.getClass().getMethod("getSource").invoke(read);
@@ -77,7 +77,7 @@ public class SerafinAdapterProxy {
             return new Element(grid.getClass().getMethod("getElement", Integer.TYPE).invoke(grid, i));
         }
 
-        public int getEltContainingXY(double x, double y, org.funz.Telemac.SerafinAdapterProxy.Coordinate c) throws Exception {
+        public int getEltContainingXY(double x, double y, org.funz.Telemac.SerafinAdapterHelper.Coordinate c) throws Exception {
             return (Integer) grid.getClass().getMethod("getEltContainingXY", Double.TYPE, Double.TYPE, classCoordinate).invoke(grid, x, y, c.coordinate);
         }
 
