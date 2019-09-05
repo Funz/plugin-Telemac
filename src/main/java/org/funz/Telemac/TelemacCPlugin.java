@@ -2,13 +2,9 @@ package org.funz.Telemac;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Properties;
-import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
-import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
-import static org.funz.Telemac.TelemacHelper.RES_VAR;
-import static org.funz.Telemac.TelemacHelper.printDoubleArray;
+//import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
+//import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
 import static org.funz.Telemac.TelemacHelper.write;
 import org.funz.calculator.plugin.CodeLauncher;
 import org.funz.calculator.plugin.DataChannel;
@@ -89,7 +85,7 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    /*public static void main(String[] args) throws IOException {
         String cas = "t2d_garonne_hydro.cas";//"TRI_Qmoy_DDOCE_final_qloi3.cas";
         String res = "r2d_garonne_RSUR.res";//"TRI_Qmoy_DDOCE_brecheAV100m_qloi3_3h.res";
 
@@ -122,5 +118,5 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
                 }
             }
         }
-    }
+    }*/
 }
