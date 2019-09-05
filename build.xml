@@ -12,20 +12,31 @@
 	
     <target name="dist" depends="dist-iopluginjar"/> <!-- dist-ioplugin: copy the plugin jar files -->
 	     
-    <property name="unit.test.jar" value="../funz-profile/lib/concutest-junit-4.7-withrt.jar" />   
     <target name="test" depends="test-iopluginjar"> <!-- test-iopluginjar: test the java plugin -->  
-    
+        <property name="unit.test.jar" value="../funz-profile/lib/concutest-junit-4.7-withrt.jar" />   
+	<javac deprecation="true"
+               source="${java.compiler.version}"
+               target="${java.compiler.version}"
+               srcdir="${test.dir}"
+               destdir="${build.dir}"
+               encoding="ISO-8859-1"
+               debug="true">
+	     <classpath refid="plugin.classpath" />
+             <classpath path="${build.dir}" />
+             <classpath path="${unit.test.jar}" />
+	</javac>
+	    
         <fileset id="tests" dir="${build.dir}" includes="**/*Test.class" />
         <!--property name="tests.p" refid="tests"/>
         <echo message="${tests.p}"/-->
 
-        <pathconvert pathsep="${line.separator}" property="tests.list" refid="tests">
+        <pathconvert pathsep="${line.separator}" property="testclass.list" refid="tests">
             <map from="${build.dir}/" to=""/>
         </pathconvert>
         <!--echo message="${tests.list}"/>
         <echo message="================"/-->
         
-        <for list="${tests.list}" param="test.class" delimiter="${line.separator}">
+        <for list="${testclass.list}" param="test.class" delimiter="${line.separator}">
             <sequential>
                 <echo message="@{test.class}"/>
                 <echo message="========================================="/>
@@ -39,7 +50,8 @@
                 <!--record name="${test.class.id}.txt" action="start" /-->
                 <!--<jacoco:coverage>-->  
                 <java classname="${test.class.id}" fork="true" timeout="360000" failonerror="false" resultproperty="@{test.class}.failed">
-                    <classpath refid="root.classpath" />
+                    <sysproperty key="app.home" value="${dist.dir}"/> <!-- setup root dir for static dependencies (eg. jar) -->
+		    <classpath refid="plugin.classpath" />
                     <classpath path="${build.dir}" />
                     <classpath path="${unit.test.jar}" />
                     <assertions>
