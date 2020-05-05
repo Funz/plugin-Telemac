@@ -3,7 +3,7 @@
     <property name="code.name" value="Telemac" />
     <property name="install.dir" value="${basedir}/Funz-${code.name}" />
 
-    <property name="funz.release" value="v1.9" />
+    <property name="funz.release" value="v1.10" />
 
     <property name="build_plugin.xml" location="../funz-profile/build_plugin.xml" />
     <import file="${build_plugin.xml}"/>
