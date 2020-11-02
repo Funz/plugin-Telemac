@@ -1,23 +1,36 @@
-language: java
+language: minimal
+cache:
+  directories:
+    - $HOME/.jabba/
+
 matrix:
   include:
     - name: "Linux JDK8"
       os: linux
-      dist: trusty
-      jdk:
-        - openjdk8
+      dist: xenial
       env:
-        - TRAVIS_DIST_NAME="trusty"
-    - name: "MacOS JDK8"
-      os: osx
-      osx_image: xcode9.3
-#    - name: "Windows" --- Not yet supported
-#      os: windows
-#      jdk:
-#        - openjdk8
+        - JDK="adopt@1.8"
+    - name: "Linux JDK11"
+      os: linux
+      dist: xenial
+      env:
+        - JDK="openjdk@1.11"
+    - name: "Linux JDK13"
+      os: linux
+      dist: xenial
+      env:
+        - JDK="openjdk@1.13"
 
+env:
+  global:
+    # Convenience variables for shortening commands
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis" 
+    
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rm -f '/usr/local/include/c++'; brew install ant; fi
+  # Check out the script set
+  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
+  - source $GRAVIS/install-jdk
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install ant -y; fi
 
 install:
