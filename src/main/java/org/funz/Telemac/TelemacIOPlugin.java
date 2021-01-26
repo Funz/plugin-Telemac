@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 import static org.funz.Telemac.TelemacHelper.CommentLine;
@@ -15,6 +16,7 @@ import org.funz.ioplugin.*;
 import org.funz.parameter.OutputFunctionExpression;
 import org.funz.parameter.SyntaxRules;
 import org.funz.util.Parser;
+import org.funz.parameter.InputFile;
 
 public class TelemacIOPlugin extends ExtendedIOPlugin {
 
@@ -37,7 +39,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
 
     @Override
     public boolean acceptsDataSet(File f) {
-        return f.isFile() && f.getName().endsWith(".cas") && Parser.contains(f, "FICHIER DE GEOMETRIE");
+        return f.isFile() && f.getName().endsWith(".cas") && ( Parser.contains(f, "FICHIER DE GEOMETRIE") || Parser.contains(f, "GEOMETRY FILE"));
     }
 
     @Override
@@ -164,4 +166,36 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
         }
         return s;
     }
+
+    @Override
+    public LinkedList<File> getRelatedFiles(File cas) {
+        LinkedList<File> toimport = new LinkedList();
+        toimport.add(cas);
+        if (cas.isFile() && cas.getName().endsWith(".cas")) {
+            String[] deps = TelemacHelper.readFichiersDe(cas, ""); // get any possible deps
+            for (String d : deps) {
+                System.err.println("? "+d);
+
+                File f = new File(cas.getParentFile(),d);
+                if (f.isFile()) {
+                    System.err.println("Found related file "+f);
+                    toimport.add(f);
+                } else {
+                    System.err.println("Could not find related file "+f);
+                }
+            }
+        }
+        return toimport;
+    }
+    
+    @Override
+    public InputFile[] importFileOrDir(File src) throws Exception {
+        LinkedList<InputFile> all = new LinkedList();
+        for (File f : getRelatedFiles(src)) {
+            InputFile[] toadd = super.importFileOrDir(f);
+            for (InputFile a : toadd) all.add(a);
+        }
+        return all.toArray(new InputFile[all.size()]);
+    }
+    
 }
