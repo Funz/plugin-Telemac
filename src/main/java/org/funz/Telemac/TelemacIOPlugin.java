@@ -159,6 +159,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
     @Override
     public LinkedList<OutputFunctionExpression> suggestOutputFunctions() {
         LinkedList<OutputFunctionExpression> s = new LinkedList<OutputFunctionExpression>();
+        s.addFirst(new OutputFunctionExpression.NumericArray("T"));
         for (String k : _output.keySet()) {
             if (_output.get(k) instanceof Double) {
                 s.addFirst(new OutputFunctionExpression.Numeric(k));
@@ -166,7 +167,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 s.addFirst(new OutputFunctionExpression.Numeric("max(" + k + ")"));
                 double[] v = (double[]) _output.get(k);
                 if (v.length > 1) {
-                    s.addFirst(new OutputFunctionExpression.Numeric2DArray("T", k));
+                    s.addFirst(new OutputFunctionExpression.NumericArray(k));
                 }
             }
         }
