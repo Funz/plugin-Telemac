@@ -22,6 +22,7 @@ public class SerafinAdapterHelper {
         try {
             File jar = new File(Constants.APP_INSTALL_DIR.getPath() + File.separator +"lib", "fudaa-prepro-1.3.0.jar");
             if (!jar.isFile()) {
+                System.err.println("Cannot access file: " + jar);
                 throw new Exception("Cannot access file: " + jar);
             }
             URLClassLoader child = new URLClassLoader(
@@ -29,11 +30,13 @@ public class SerafinAdapterHelper {
                     (URLClassLoader) ClassLoader.getSystemClassLoader()
             );*/
             Class classSerafinNewReader = Class.forName("org.fudaa.dodico.ef.io.serafin.SerafinNewReader", true, child);
+            if (classSerafinNewReader==null) System.err.println("Cannot load class org.fudaa.dodico.ef.io.serafin.SerafinNewReader");
             serafinNewReader = classSerafinNewReader.newInstance();
             serafinNewReader_setFile = classSerafinNewReader.getMethod("setFile", File.class);
             serafinNewReader_read = classSerafinNewReader.getMethod("read");
 
             classCoordinate = Class.forName("com.vividsolutions.jts.geom.Coordinate", true, child);
+            if (classCoordinate==null) System.err.println("com.vividsolutions.jts.geom.Coordinate");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -65,7 +68,7 @@ public class SerafinAdapterHelper {
         return new Grid(serafinAdapter.getClass().getMethod("getGrid").invoke(serafinAdapter));
     }
 
-    public static class Grid {
+    public class Grid {
 
         Object grid;
 
@@ -77,7 +80,8 @@ public class SerafinAdapterHelper {
             return new Element(grid.getClass().getMethod("getElement", Integer.TYPE).invoke(grid, i));
         }
 
-        public int getEltContainingXY(double x, double y, org.funz.Telemac.SerafinAdapterHelper.Coordinate c) throws Exception {
+        public int getEltContainingXY(double x, double y) throws Exception {
+            Coordinate c = new Coordinate(0,0);
             return (Integer) grid.getClass().getMethod("getEltContainingXY", Double.TYPE, Double.TYPE, classCoordinate).invoke(grid, x, y, c.coordinate);
         }
 
@@ -91,7 +95,7 @@ public class SerafinAdapterHelper {
 
     }
 
-    public static class Element {
+    public class Element {
 
         Object element;
 
@@ -104,7 +108,7 @@ public class SerafinAdapterHelper {
         }
     }
 
-    public static class Coordinate {
+    public class Coordinate {
 
         Object coordinate;
 

@@ -45,7 +45,7 @@ public class SerafinAdapterHelperTest {
                     String cs = poi.get(p).toString();
                     double x = Double.parseDouble(cs.substring(0, cs.indexOf(",")));
                     double y = Double.parseDouble(cs.substring(cs.indexOf(",") + 1));
-                    int ie = s.getGrid().getEltContainingXY(x, y, new SerafinAdapterHelper.Coordinate(0.0, 0.0));
+                    int ie = s.getGrid().getEltContainingXY(x, y);
                     int[] Ix = s.getGrid().getElement(ie).getIndices();
                     int ix = -1;
                     double min_dist2 = Double.MAX_VALUE;

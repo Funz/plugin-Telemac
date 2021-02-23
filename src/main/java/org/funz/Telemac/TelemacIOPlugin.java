@@ -29,7 +29,13 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
         formulaStartSymbol = FormulaStartSymbol;
         formulaLimit = FormulaLimit;
         commentLine = CommentLine;
-        setID("Telemac");
+        String id = "Telemac";
+        String class_str = this.getClass().getResource('/' + this.getClass().getName().replace('.', '/') + ".class").toString();
+        if (class_str.contains(".ioplugin.jar")) {
+            id = class_str.substring(0,class_str.indexOf(".ioplugin.jar"));
+            id = id.substring(id.lastIndexOf('/')+1);
+        }
+        this.setID(id);    
     }
 
     public static final int VariableStartSymbol = SyntaxRules.START_SYMBOL_DOLLAR;
@@ -58,14 +64,14 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
             if (file.isFile() && file.getName().endsWith(".cas")) {
                 cas = file;
             }
-            if (file.isFile() && file.getName().equalsIgnoreCase("poi.txt")) {
+            if (file.isFile() && file.getName().endsWith(".poi")) {
                 coords = file;
             }
         }
 
         Properties poi = null;
         if (coords == null) {
-            System.err.println("Could not find poi.txt file !");
+            System.err.println("Could not find .poi file !");
         } else {
             poi = new Properties();
             try {
@@ -114,14 +120,14 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                     if (file.isFile() && file.getName().endsWith(".cas")) {
                         cas = file;
                     }
-                    if (file.isFile() && file.getName().equalsIgnoreCase("poi.txt")) {
+                    if (file.isFile() && file.getName().endsWith(".poi")) {
                         coords = file;
                     }
                 }
 
                 Properties poi = null;
                 if (coords == null) {
-                    System.err.println("Could not find poi.txt file !");
+                    System.err.println("Could not find .poi file !");
                     return lout;
                 } else {
                     poi = new Properties();
@@ -172,6 +178,8 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
         LinkedList<File> toimport = new LinkedList();
         toimport.add(cas);
         if (cas.isFile() && cas.getName().endsWith(".cas")) {
+            File poi = new File(cas.getParentFile(),cas.getName().replace(".cas",".poi"));
+            if (poi.isFile()) toimport.add(poi);
             String[] deps = TelemacHelper.readFichiersDe(cas, ""); // get any possible deps
             for (String d : deps) {
                 System.err.println("? "+d);

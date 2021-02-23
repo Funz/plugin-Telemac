@@ -49,16 +49,17 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
                     if (file.isFile() && file.getName().endsWith(".cas")) {
                         cas = file;
                     }
-                    if (file.isFile() && file.getName().equalsIgnoreCase("poi.txt")) {
+                    if (file.isFile() && file.getName().endsWith(".poi")) {
                         coords = file;
                     }
                 }
 
                 Properties poi = null;
                 if (coords == null) {
-                    System.err.println("Could not find poi.txt file !");
+                    System.err.println("Could not find .poi file !");
                     return ret;
                 } else {
+                    System.err.println("Using .poi file: "+coords);
                     poi = new Properties();
                     try {
                         poi.load(new FileInputStream(coords));
