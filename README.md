@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Funz/plugin-Telemac.png)](https://travis-ci.org/Funz/plugin-Telemac)
+[![.github/workflows/ant.yml](https://github.com/Funz/plugin-Telemac/actions/workflows/ant.yml/badge.svg)](https://github.com/Funz/plugin-Telemac/actions/workflows/ant.yml)
 
 # Funz plugin: Telemac
 
@@ -7,6 +7,12 @@ It supports the following syntax and features:
 
   * Input
     * file type supported: *.cas, any other format for resources (.slf, ...)
+    * need a *.poi file which setup output points of interest coordinates:
+      ```
+      first_poi=2500,15
+      second_poi=2500,250
+      ...
+      ```
     * parameter syntax: 
       * variable syntax: `$(...)`
       * formula syntax: `@{...}`
