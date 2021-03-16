@@ -7,7 +7,7 @@ It supports the following syntax and features:
 
   * Input
     * file type supported: *.cas, any other format for resources (.slf, ...)
-    * need a *.poi file which setup output points of interest coordinates:
+    * __need__ a *.poi file which setup output Points Of Interest coordinates:
       ```
       first_poi=2500,15
       second_poi=2500,250
@@ -141,7 +141,7 @@ It supports the following syntax and features:
         /
         IMPLICITATION FOR VELOCITY =0.6
         ```
-      * poi.txt file (dedicated to specify Funz output Points Of Interest):
+      * .poi file (dedicated to specify Funz output Points Of Interest):
         ```
         xylowercenter=2500,15
         xymediumcenter=2500,250
@@ -151,10 +151,9 @@ It supports the following syntax and features:
       * will identify input:
         * vel, expected to default value 0.005
         * init_elev, expected to vary inside [1.5,2.5]
-
   * Output
     * file type supported: *.slf `RESULTS FILE` (Seraphin format)
-    * read any `VARIABLES FOR GRAPHIC PRINTOUTS` at poi.txt points, along time
+    * read any `VARIABLES FOR GRAPHIC PRINTOUTS` at .poi points, along time
     * will return time dependant arrays like: `H_xylowerright`=`[2.3383100032806396,2.3411474227905273,2.3438708782196045,2.3465609550476074,...]`
 
 
