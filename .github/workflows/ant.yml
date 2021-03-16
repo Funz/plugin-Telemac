@@ -20,11 +20,6 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         java-package: jdk
-    - uses: r-lib/actions/setup-r@v1
-      with:
-        r-version: 3.6
-    - run: ln -s /Library/Frameworks/R.framework/Versions/3.6 /Library/Frameworks/R.framework/Versions/3.5
-      if: matrix.os == 'macos-latest'
     - run: |
         WD=$PWD
         cd ..
