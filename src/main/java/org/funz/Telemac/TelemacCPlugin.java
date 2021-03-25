@@ -6,6 +6,8 @@ import java.util.Properties;
 //import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
 //import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
 import static org.funz.Telemac.TelemacHelper.write;
+
+import org.apache.commons.io.FileUtils;
 import org.funz.calculator.plugin.CodeLauncher;
 import org.funz.calculator.plugin.DataChannel;
 import org.funz.calculator.plugin.DefaultCalculatorPlugin;
@@ -71,10 +73,11 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
 
                 if (TelemacHelper.writeCSVfromRES(cas, poi)) {
                     File resfile = new File(cas.getParentFile(), TelemacHelper.readFichiersDe(cas, "RESULT")[0]);
+                    System.err.println("Could extract CSV, will delete results file: "+resfile+ " (exists: "+resfile.isFile()+")");
                     if (resfile.isFile()) {
-                        resfile.delete();
+                        FileUtils.forceDelete(resfile);
                     }
-                }
+                } else System.err.println("Could not extract CSV, keep results file");
 
                 return ret;
             } catch (Exception e) {
