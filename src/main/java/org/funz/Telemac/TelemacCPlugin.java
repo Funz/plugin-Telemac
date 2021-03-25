@@ -69,12 +69,10 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
                     }
                 }
 
-                TelemacHelper.writeCSVfromRES(cas, poi);
-
-                for (Object ofile : _files) {
-                    File file = (File) ofile;
-                    if (file.isFile() && file.getName().endsWith(".res")) {
-                        file.delete();
+                if (TelemacHelper.writeCSVfromRES(cas, poi)) {
+                    File resfile = new File(cas.getParentFile(), TelemacHelper.readFichiersDe(cas, "RESULT")[0]);
+                    if (resfile.isFile()) {
+                        resfile.delete();
                     }
                 }
 

@@ -191,11 +191,13 @@ public class TelemacHelper {
         }
     }*/
 
-    static void writeCSVfromRES(File cas, Properties poi) throws Exception {
+    static boolean writeCSVfromRES(File cas, Properties poi) throws Exception {
         Map<String, double[]> dat = extractPOIfromRES(cas, poi);
+        if (dat==null || dat.isEmpty() || dat.keySet().isEmpty()) return false;
         for (String d : dat.keySet()) {
             write(new File(cas.getParentFile(), d + ".csv"), printDoubleArray(dat.get(d)));
         }
+        return true;
     }
 
     static void write(File f, String s) {
