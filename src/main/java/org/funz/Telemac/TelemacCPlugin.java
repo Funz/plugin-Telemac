@@ -43,35 +43,37 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
                 return ret;
             }
 
+            Properties pois = new Properties();
             try {
                 File cas = null;
-                File coords = null;
                 for (Object ofile : _files) {
                     File file = (File) ofile;
                     if (file.isFile() && file.getName().endsWith(".cas")) {
                         cas = file;
                     }
                     if (file.isFile() && file.getName().endsWith(".poi")) {
-                        coords = file;
+                        try {
+                            Properties poi =  new Properties();
+                            poi.load(new FileInputStream(file));
+                            
+                            Stream<Entry<Object, Object>> stream = poi.entrySet().stream();
+                            Map<String, String> m = stream.collect(Collectors.toMap(
+                                e -> String.valueOf(e.getKey()),
+                                e -> String.valueOf(e.getValue())));
+                            
+                            pois.putAll(m);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
 
-                Properties poi = null;
-                if (coords == null) {
+                if (pois.isEmpty()) {
                     System.err.println("Could not find .poi file !");
                     return ret;
-                } else {
-                    System.err.println("Using .poi file: "+coords);
-                    poi = new Properties();
-                    try {
-                        poi.load(new FileInputStream(coords));
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        poi = null;
-                    }
                 }
 
-                if (TelemacHelper.writeCSVfromRES(cas, poi)) {
+                if (TelemacHelper.writeCSVfromRES(cas, pois)) {
                     File resfile = new File(cas.getParentFile(), TelemacHelper.readFichiersDe(cas, "RESULT")[0]);
                     System.err.println("Could extract CSV, will delete results file: "+resfile+ " (exists: "+resfile.isFile()+")");
                     if (resfile.isFile()) {

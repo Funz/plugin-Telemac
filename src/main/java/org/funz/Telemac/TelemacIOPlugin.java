@@ -65,7 +65,6 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
         Properties pois = new Properties();
 
         File cas = null;
-        File coords = null;
         for (File file : inputfiles) {
             if (file.isFile() && file.getName().endsWith(".cas")) {
                 cas = file;
@@ -84,12 +83,10 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                
-                coords = file;
             }
         }
 
-        if (coords == null) {
+        if (pois.isEmpty()) {
             System.err.println("Could not find .poi file !");
         }
 
