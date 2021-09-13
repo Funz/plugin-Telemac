@@ -7,7 +7,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.io.FileUtils;
 import static org.funz.Telemac.TelemacHelper.CommentLine;
 import static org.funz.Telemac.TelemacHelper.readDoubleArray;
@@ -57,6 +62,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
     public void setInputFiles(File... inputfiles) {
         _inputfiles = inputfiles;
         _output.clear();
+        Properties pois = new Properties();
 
         File cas = null;
         File coords = null;
@@ -65,21 +71,26 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 cas = file;
             }
             if (file.isFile() && file.getName().endsWith(".poi")) {
+                try {
+                    Properties poi =  new Properties();
+                    poi.load(new FileInputStream(file));
+                    
+                    Stream<Entry<Object, Object>> stream = poi.entrySet().stream();
+                    Map<String, String> m = stream.collect(Collectors.toMap(
+                        e -> String.valueOf(e.getKey()),
+                        e -> String.valueOf(e.getValue())));
+                    
+                    pois.putAll(m);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                
                 coords = file;
             }
         }
 
-        Properties poi = null;
         if (coords == null) {
             System.err.println("Could not find .poi file !");
-        } else {
-            poi = new Properties();
-            try {
-                poi.load(new FileInputStream(coords));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                poi = null;
-            }
         }
 
         if (cas == null) {
@@ -89,9 +100,9 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
 
             _output.put("T", new double[]{0, .1, .2, .3, .4, .5, .6, .7, .8, .9});
 
-            if (variables_sorties_graphiques != null && poi != null) {
+            if (variables_sorties_graphiques != null && pois.isEmpty()) {
                 for (String o : variables_sorties_graphiques) {
-                    for (String p : poi.stringPropertyNames()) {
+                    for (String p : pois.stringPropertyNames()) {
                         _output.put(o + "_" + p.replace(" ", ""), new double[]{Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()});
                     }
                 }
@@ -179,12 +190,14 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
         LinkedList<File> toimport = new LinkedList();
         toimport.add(cas);
         if (cas.isFile() && cas.getName().endsWith(".cas")) {
-            File poi = new File(cas.getParentFile(),cas.getName().replace(".cas",".poi"));
-            if (poi.isFile()) toimport.add(poi);
+            File[] pois = cas.getParentFile().listFiles();
+            for (File file : pois) {
+                if (file.isFile() && file.getName().endsWith(".poi"))
+                toimport.add(file);
+            }
             String[] deps = TelemacHelper.readFichiersDe(cas, ""); // get any possible deps
             for (String d : deps) {
-                System.err.println("? "+d);
-
+                //System.err.println("? "+d);
                 File f = new File(cas.getParentFile(),d);
                 if (f.isFile()) {
                     System.err.println("Found related file "+f);
