@@ -2,7 +2,12 @@ package org.funz.Telemac;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 //import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
 //import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
 import static org.funz.Telemac.TelemacHelper.write;
