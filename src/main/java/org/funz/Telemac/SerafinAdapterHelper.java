@@ -19,16 +19,26 @@ public class SerafinAdapterHelper {
     static Class classCoordinate;
 
     static {
+        ClassLoader child = ClassLoader.getSystemClassLoader();
         try {
             File jar = new File(Constants.APP_INSTALL_DIR.getPath() + File.separator +"lib", "fudaa-prepro-1.3.0.jar");
             if (!jar.isFile()) {
                 System.err.println("Cannot access file: " + jar);
                 throw new Exception("Cannot access file: " + jar);
             }
-            URLClassLoader child = new URLClassLoader(
+            child = new URLClassLoader(
                     new URL[]{jar.toURI().toURL()});/*,
                     (URLClassLoader) ClassLoader.getSystemClassLoader()
             );*/
+        } catch (Exception ex) {
+            System.err.println("Failed to load fudaa jar");
+            ex.printStackTrace();
+        } catch (Error e) {
+            System.err.println("Error while loading fudaa jar");
+            e.printStackTrace();
+        }
+
+        try {
             Class classSerafinNewReader = Class.forName("org.fudaa.dodico.ef.io.serafin.SerafinNewReader", true, child);
             if (classSerafinNewReader==null) System.err.println("Cannot load class org.fudaa.dodico.ef.io.serafin.SerafinNewReader");
             serafinNewReader = classSerafinNewReader.newInstance();
@@ -36,8 +46,9 @@ public class SerafinAdapterHelper {
             serafinNewReader_read = classSerafinNewReader.getMethod("read");
 
             classCoordinate = Class.forName("com.vividsolutions.jts.geom.Coordinate", true, child);
-            if (classCoordinate==null) System.err.println("com.vividsolutions.jts.geom.Coordinate");
-        } catch (Exception ex) {
+
+        } catch (Exception ex) {                
+            System.err.println("Cannot load com.vividsolutions.jts.geom.Coordinate !");
             ex.printStackTrace();
         }
     }

@@ -147,7 +147,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                     }
                 }
 
-                lout.putAll(TelemacHelper.extractPOIfromRES(cas, poi));
+                lout.putAll(TelemacHelper.extractPOIfromCASRES(cas, poi));
             } catch (Exception e) {
                 e.printStackTrace();
             }

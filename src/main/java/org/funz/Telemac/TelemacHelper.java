@@ -1,6 +1,7 @@
 package org.funz.Telemac;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.fudaa.dodico.ef.operation.EfLineSingleIntersectFinder;
 //import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
 //import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
 import org.funz.Telemac.SerafinAdapterHelper.Coordinate;
@@ -124,15 +126,19 @@ public class TelemacHelper {
         return fde.toArray(new String[fde.size()]);
     }
 
-    static Map<String, double[]> extractPOIfromRES(File cas, Properties poi) throws Exception {
-        Map<String, double[]> dat = new HashMap<String, double[]>();
+    static Map<String, double[]> extractPOIfromCASRES(File cas, Properties poi) throws Exception {
+        return extractPOIfromRES(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]), poi);
+    }
 
-//        SerafinNewReader r = new SerafinNewReader();
-//        System.err.println("In " + new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
-//        r.setFile(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
-//        SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
-        SerafinAdapterHelper s = new SerafinAdapterHelper(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
-        
+    static Map<String, double[]> extractPOIfromRES(File res, Properties poi) throws Exception {
+        Map<String, double[]> dat = new HashMap<String, double[]>();
+    
+        //        SerafinNewReader r = new SerafinNewReader();
+        //        System.err.println("In " + new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
+        //        r.setFile(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
+        //        SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
+        SerafinAdapterHelper s = new SerafinAdapterHelper(res);
+            
         dat.put("T", s.getPasDeTemps());
         System.err.println("  containing " + s.getPasDeTemps().length + " time steps");
 
@@ -141,7 +147,7 @@ public class TelemacHelper {
             System.err.println("Reading " + v + " at:");
             for (String p : poi.stringPropertyNames()) {
                 System.err.println(p);
-                if (p.startsWith("xy")) {
+                if (poi.getProperty(p).contains(",")) { // so, this is a x,y poi, to get containing cell results
                     double[] d = new double[s.getPasDeTemps().length];
                     String cs = poi.get(p).toString();
                     double x = Double.parseDouble(cs.substring(0, cs.indexOf(",")));
@@ -161,7 +167,7 @@ public class TelemacHelper {
                         d[i] = s.getDonnees(i, vi)[ix];
                     }
                     dat.put(RES_VAR.get(v) + "_" + p, d);
-                } else {
+                } else { // so, it is a cell number result
                     double[] d = new double[s.getPasDeTemps().length];
                     int ix = Integer.parseInt(poi.get(p).toString()) - 1;
                     for (int i = 0; i < d.length; i++) {
@@ -175,24 +181,69 @@ public class TelemacHelper {
         return dat;
     }
 
-    /*public static void main(String[] args) {
-        SerafinNewReader r = new SerafinNewReader();
-        r.setFile(new File("src/test/resources/t2d_garonne_hydro_init_eng.cas/output/r2d_garonne_MC.res"));
-        SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
-        System.err.println(Arrays.asList(s.getVariables()));
-
-        Properties p = new Properties();
-        p.setProperty("p1", "34398");
-        p.setProperty("xy1", "426379.5,244174.90625");
-        try {
-            System.err.println(ASCII.cat(",\n", extractPOIfromRES(new File("src/test/resources/t2d_garonne_hydro_init_eng.cas/output/t2d_garonne_hydro_init_eng.cas"), p)));
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
+    public static void main(String[] args) {
+        if (args==null || args.length<2) {
+            System.err.println("You must provide a .res and a poi (as file or arg)");
+            System.exit(1);
         }
-    }*/
 
-    static boolean writeCSVfromRES(File cas, Properties poi) throws Exception {
-        Map<String, double[]> dat = extractPOIfromRES(cas, poi);
+        String res_file = null;
+        if (args[0].endsWith(".res") && new File(args[0]).isFile())
+            res_file=args[0];
+        else if (args[1].endsWith(".res") && new File(args[1]).isFile())
+            res_file=args[1];
+
+        String poi_file = null;
+        if (args[0].endsWith(".poi") && new File(args[0]).isFile())
+            poi_file=args[0];   
+        else if (args[1].endsWith(".poi") && new File(args[1]).isFile())
+            poi_file=args[1];
+        Properties poi = new Properties();  
+        if (poi_file==null) {
+            for (String arg : args) {
+            try{
+                if (arg.equals(res_file)) {
+                    //do nothing
+                } else if (arg.contains("=")) {
+                    poi.setProperty(arg.substring(0, arg.indexOf("=")), arg.substring(arg.indexOf("=")+1));
+                    System.out.println("Using poi: "+arg);
+                } else {
+                    poi.setProperty(arg, arg);
+                    System.out.println("Using poi: "+arg);
+                } 
+            } catch(Exception e) {
+                System.err.println("Ignoring: "+arg);
+            }
+            }
+        } else {
+            try{ poi.load(new FileReader(new File(poi_file))); } catch(Exception e) {e.printStackTrace();}
+        }
+
+        if (poi==null || poi.isEmpty()) {
+            System.err.println("You must provide a poi file or arg");
+            System.exit(1);
+        } else 
+            System.out.println("Extracting poi:\n"+poi);
+        
+        if (res_file==null || poi==null){
+            System.err.println("You must provide a .slf and a poi (as file or arg)");
+            System.exit(1);
+        }
+        
+        try {
+            Map<String, double[]> dat = extractPOIfromRES(new File(res_file), poi);
+            if (dat==null || dat.isEmpty() || dat.keySet().isEmpty()) 
+                System.err.println("Could not extract POI from RES");
+            for (String d : dat.keySet()) {
+                    write(new File(new File(res_file).getParentFile(), d + ".csv"), printDoubleArray(dat.get(d)));
+            }        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    static boolean writeCSVfromCASRES(File cas, Properties poi) throws Exception {
+        Map<String, double[]> dat = extractPOIfromCASRES(cas, poi);
         if (dat==null || dat.isEmpty() || dat.keySet().isEmpty()) return false;
         for (String d : dat.keySet()) {
             write(new File(cas.getParentFile(), d + ".csv"), printDoubleArray(dat.get(d)));
