@@ -126,12 +126,12 @@ public class TelemacHelper {
         return fde.toArray(new String[fde.size()]);
     }
 
-    static Map<String, double[]> extractPOIfromCASRES(File cas, Properties poi) throws Exception {
-        return extractPOIfromRES(new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]), poi);
+    static Map<String, double[][]> extractPOIfromCASRES(File cas, Properties poi) throws Exception {
+        return extractPOIfromRES(new File(cas.getAbsoluteFile().getParentFile(), readFichiersDe(cas, "RESULT")[0]), poi);
     }
 
-    static Map<String, double[]> extractPOIfromRES(File res, Properties poi) throws Exception {
-        Map<String, double[]> dat = new HashMap<String, double[]>();
+    static Map<String, double[][]> extractPOIfromRES(File res, Properties poi) throws Exception {
+        Map<String, double[][]> dat = new HashMap<String, double[][]>();
     
         //        SerafinNewReader r = new SerafinNewReader();
         //        System.err.println("In " + new File(cas.getParentFile(), readFichiersDe(cas, "RESULT")[0]));
@@ -139,7 +139,7 @@ public class TelemacHelper {
         //        SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
         SerafinAdapterHelper s = new SerafinAdapterHelper(res);
             
-        dat.put("T", s.getPasDeTemps());
+        dat.put("T", new double[][]{s.getPasDeTemps()});
         System.err.println("  containing " + s.getPasDeTemps().length + " time steps");
 
         for (int vi = 0; vi < s.getVariables().length; vi++) {
@@ -158,12 +158,17 @@ public class TelemacHelper {
                     String cs1 = cs.substring(cs.lastIndexOf(":")+1);
                     double x1 = Double.parseDouble(cs1.substring(0, cs1.indexOf(",")));
                     double y1 = Double.parseDouble(cs1.substring(cs1.indexOf(",") + 1));
-                    for (double nxi = 0; nxi < nx; nxi++) {
-                        double x = x0 + nxi/((double)nx) * (x1-x0);
-                        for (double nyi = 0; nyi < ny; nyi++) {
-                            double y = y0 + nyi/((double)ny) * (y1-y0);
-                        System.err.println("x:"+x+" y:"+y);
-                            double[] d = new double[s.getPasDeTemps().length];
+                    double[][] d = new double[s.getPasDeTemps().length][nx*ny];
+                    double[][] xy = new double[nx*ny][2];
+                    for (int nxi = 0; nxi < nx; nxi++) {
+                        double x = x0 + ((double)nxi)/((double)nx) * (x1-x0);
+                        for (int nyi = 0; nyi < ny; nyi++) {
+                            double y = y0 + ((double)nyi)/((double)ny) * (y1-y0);
+
+                            System.err.println("x:"+x+" y:"+y);
+                            xy[nxi+nx*nyi][0] = x;
+                            xy[nxi+nx*nyi][1] = y;
+                            
                             int ie = s.getGrid().getEltContainingXY(x, y);
                             int[] Ix = s.getGrid().getElement(ie).getIndices();
                             int ix = -1;
@@ -176,11 +181,13 @@ public class TelemacHelper {
                                 }
                             }
                             for (int i = 0; i < d.length; i++) {
-                                d[i] = s.getDonnees(i, vi)[ix];
+                                d[i][nxi+nx*nyi] = s.getDonnees(i, vi)[ix];
                             }
-                            dat.put(RES_VAR.get(v) + "_" + p+"("+(int)nxi+","+(int)nyi+")", d);
                         }
                     }
+                    dat.put(RES_VAR.get(v) + "_" + p, d);
+                    dat.put(p+"_xy", xy);
+
                 } else if (poi.getProperty(p).contains(",")) { // so, this is a x,y poi, to get containing cell results
                     double[] d = new double[s.getPasDeTemps().length];
                     String cs = poi.get(p).toString();
@@ -200,14 +207,14 @@ public class TelemacHelper {
                     for (int i = 0; i < d.length; i++) {
                         d[i] = s.getDonnees(i, vi)[ix];
                     }
-                    dat.put(RES_VAR.get(v) + "_" + p, d);
+                    dat.put(RES_VAR.get(v) + "_" + p, new double[][]{d});
                 } else { // so, it is a cell number result
                     double[] d = new double[s.getPasDeTemps().length];
                     int ix = Integer.parseInt(poi.get(p).toString()) - 1;
                     for (int i = 0; i < d.length; i++) {
                         d[i] = s.getDonnees(i, vi)[ix];
                     }
-                    dat.put(RES_VAR.get(v) + "_" + p, d);
+                    dat.put(RES_VAR.get(v) + "_" + p, new double[][]{d});
                 }
             }
         }
@@ -265,11 +272,11 @@ public class TelemacHelper {
         }
         
         try {
-            Map<String, double[]> dat = extractPOIfromRES(new File(res_file), poi);
+            Map<String, double[][]> dat = extractPOIfromRES(new File(res_file), poi);
             if (dat==null || dat.isEmpty() || dat.keySet().isEmpty()) 
                 System.err.println("Could not extract POI from RES");
             for (String d : dat.keySet()) {
-                    write(new File(new File(res_file).getParentFile(), d + ".csv"), printDoubleArray(dat.get(d)));
+                    write(new File(new File(res_file).getAbsoluteFile().getParentFile(), d + ".csv"), printDoubleArray2D(dat.get(d)));
             }        
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -277,10 +284,10 @@ public class TelemacHelper {
     }
 
     static boolean writeCSVfromCASRES(File cas, Properties poi) throws Exception {
-        Map<String, double[]> dat = extractPOIfromCASRES(cas, poi);
+        Map<String, double[][]> dat = extractPOIfromCASRES(cas, poi);
         if (dat==null || dat.isEmpty() || dat.keySet().isEmpty()) return false;
         for (String d : dat.keySet()) {
-            write(new File(cas.getParentFile(), d + ".csv"), printDoubleArray(dat.get(d)));
+            write(new File(cas.getAbsoluteFile().getParentFile(), d + ".csv"), printDoubleArray2D(dat.get(d)));
         }
         return true;
     }
@@ -293,16 +300,28 @@ public class TelemacHelper {
         }
     }
 
-    static String printDoubleArray(double[] d) {
+    /*static String printDoubleArray(double[] d) {
         Object[] o = new Object[d.length];
         for (int i = 0; i < o.length; i++) {
             o[i] = d[i];
         }
         return StringUtils.join(o, '\n');
+    }*/
+
+    static String printDoubleArray2D(double[][] d) {
+        Object[] o = new Object[d[0].length];
+        for (int i = 0; i < o.length; i++) {
+            Object[] oi = new Object[d.length];
+            for (int j = 0; j < oi.length; j++) {
+                oi[j] = d[j][i];
+            }
+            o[i] = StringUtils.join(oi, ',');
+        }
+        return StringUtils.join(o, '\n');
     }
 
     static double[] readDoubleArray(String s) {
-        String[] sd = s.split("\n");
+        String[] sd = s.split(",");
         double[] d = new double[sd.length];
         for (int i = 0; i < d.length; i++) {
             d[i] = Double.parseDouble(sd[i]);
@@ -310,4 +329,12 @@ public class TelemacHelper {
         return d;
     }
 
+    static double[][] readDoubleArray2D(String s) {
+        String[] sd = s.split("\n");
+        double[][] d = new double[sd.length][];
+        for (int i = 0; i < d.length; i++) {
+            d[i] = readDoubleArray(sd[i]);
+        }
+        return d;
+    }
 }

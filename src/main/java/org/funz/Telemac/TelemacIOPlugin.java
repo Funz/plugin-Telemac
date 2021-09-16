@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 import static org.funz.Telemac.TelemacHelper.CommentLine;
-import static org.funz.Telemac.TelemacHelper.readDoubleArray;
+import static org.funz.Telemac.TelemacHelper.readDoubleArray2D;
 import static org.funz.Telemac.TelemacHelper.readVarsSortiesGraphiques;
 import org.funz.ioplugin.*;
 import org.funz.parameter.OutputFunctionExpression;
@@ -158,7 +158,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
 
         for (File f : csvfiles) {
             try {
-                lout.put(f.getName().substring(0, f.getName().indexOf(".csv")), readDoubleArray(FileUtils.readFileToString(f)));
+                lout.put(f.getName().substring(0, f.getName().indexOf(".csv")), readDoubleArray2D(FileUtils.readFileToString(f)));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -190,7 +190,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
         LinkedList<File> toimport = new LinkedList();
         toimport.add(cas);
         if (cas.isFile() && cas.getName().endsWith(".cas")) {
-            File[] pois = cas.getParentFile().listFiles();
+            File[] pois = cas.getAbsoluteFile().getParentFile().listFiles();
             for (File file : pois) {
                 if (file.isFile() && file.getName().endsWith(".poi"))
                 toimport.add(file);
@@ -198,7 +198,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
             String[] deps = TelemacHelper.readFichiersDe(cas, ""); // get any possible deps
             for (String d : deps) {
                 //System.err.println("? "+d);
-                File f = new File(cas.getParentFile(),d);
+                File f = new File(cas.getAbsoluteFile().getParentFile(),d);
                 if (f.isFile()) {
                     System.err.println("Found related file "+f);
                     toimport.add(f);
