@@ -47,6 +47,7 @@ public class SerafinAdapterHelper {
 
             classCoordinate = Class.forName("com.vividsolutions.jts.geom.Coordinate", true, child);
 
+            System.out.println("Well loaded com.vividsolutions.jts.geom.Coordinate.");
         } catch (Exception ex) {                
             System.err.println("Cannot load com.vividsolutions.jts.geom.Coordinate !");
             ex.printStackTrace();

@@ -147,7 +147,41 @@ public class TelemacHelper {
             System.err.println("Reading " + v + " at:");
             for (String p : poi.stringPropertyNames()) {
                 System.err.println(p);
-                if (poi.getProperty(p).contains(",")) { // so, this is a x,y poi, to get containing cell results
+                if (poi.getProperty(p).contains(",") && poi.getProperty(p).contains(":")) { // so, this is a x0,y0:nx,ny:x1,y1 zone poi
+                    String cs = poi.get(p).toString();
+                    String cs0 = cs.substring(0, cs.indexOf(":"));
+                    double x0 = Double.parseDouble(cs0.substring(0, cs0.indexOf(",")));
+                    double y0 = Double.parseDouble(cs0.substring(cs0.indexOf(",") + 1));
+                    String csn = cs.substring(cs.indexOf(":")+1,cs.lastIndexOf(":"));
+                    int nx = Integer.parseInt(csn.substring(0, csn.indexOf(",")));
+                    int ny = Integer.parseInt(csn.substring(csn.indexOf(",")+1));
+                    String cs1 = cs.substring(cs.lastIndexOf(":")+1);
+                    double x1 = Double.parseDouble(cs1.substring(0, cs1.indexOf(",")));
+                    double y1 = Double.parseDouble(cs1.substring(cs1.indexOf(",") + 1));
+                    for (double nxi = 0; nxi < nx; nxi++) {
+                        double x = x0 + nxi/((double)nx) * (x1-x0);
+                        for (double nyi = 0; nyi < ny; nyi++) {
+                            double y = y0 + nyi/((double)ny) * (y1-y0);
+                        System.err.println("x:"+x+" y:"+y);
+                            double[] d = new double[s.getPasDeTemps().length];
+                            int ie = s.getGrid().getEltContainingXY(x, y);
+                            int[] Ix = s.getGrid().getElement(ie).getIndices();
+                            int ix = -1;
+                            double min_dist2 = Double.MAX_VALUE;
+                            for (int _ix = 0; _ix < Ix.length; _ix++) {
+                                double dist2 = Math.pow(s.getGrid().getPtX(Ix[_ix]) - x, 2) + Math.pow(s.getGrid().getPtY(Ix[_ix]) - y, 2);
+                                if (dist2 < min_dist2) {
+                                    min_dist2 = dist2;
+                                    ix = Ix[_ix];
+                                }
+                            }
+                            for (int i = 0; i < d.length; i++) {
+                                d[i] = s.getDonnees(i, vi)[ix];
+                            }
+                            dat.put(RES_VAR.get(v) + "_" + p+"("+(int)nxi+","+(int)nyi+")", d);
+                        }
+                    }
+                } else if (poi.getProperty(p).contains(",")) { // so, this is a x,y poi, to get containing cell results
                     double[] d = new double[s.getPasDeTemps().length];
                     String cs = poi.get(p).toString();
                     double x = Double.parseDouble(cs.substring(0, cs.indexOf(",")));
@@ -188,9 +222,9 @@ public class TelemacHelper {
         }
 
         String res_file = null;
-        if (args[0].endsWith(".res") && new File(args[0]).isFile())
+        if ((args[0].endsWith(".res") || args[0].endsWith(".slf")) && new File(args[0]).isFile())
             res_file=args[0];
-        else if (args[1].endsWith(".res") && new File(args[1]).isFile())
+        else if ((args[1].endsWith(".res") || args[1].endsWith(".slf")) && new File(args[1]).isFile())
             res_file=args[1];
 
         String poi_file = null;
@@ -226,7 +260,7 @@ public class TelemacHelper {
             System.out.println("Extracting poi:\n"+poi);
         
         if (res_file==null || poi==null){
-            System.err.println("You must provide a .slf and a poi (as file or arg)");
+            System.err.println("You must provide a .res/slf and a poi (as file or arg)");
             System.exit(1);
         }
         

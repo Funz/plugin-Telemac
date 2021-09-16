@@ -123,31 +123,34 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
             System.err.println("Warning: could not find csv files, so reading results from .res.");
             try {
                 File cas = null;
-                File coords = null;
+                Properties pois = new Properties();
                 for (File file : outdir.listFiles()) {
                     if (file.isFile() && file.getName().endsWith(".cas")) {
                         cas = file;
                     }
                     if (file.isFile() && file.getName().endsWith(".poi")) {
-                        coords = file;
+                        try {
+                            Properties poi =  new Properties();
+                            poi.load(new FileInputStream(file));
+                            
+                            Stream<Entry<Object, Object>> stream = poi.entrySet().stream();
+                            Map<String, String> m = stream.collect(Collectors.toMap(
+                                e -> String.valueOf(e.getKey()),
+                                e -> String.valueOf(e.getValue())));
+                            
+                            pois.putAll(m);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
 
-                Properties poi = null;
-                if (coords == null) {
-                    System.err.println("Could not find .poi file !");
+                if (pois.isEmpty()) {
+                    System.err.println("Could not find any .poi file !");
                     return lout;
-                } else {
-                    poi = new Properties();
-                    try {
-                        poi.load(new FileInputStream(coords));
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        poi = null;
-                    }
                 }
 
-                lout.putAll(TelemacHelper.extractPOIfromCASRES(cas, poi));
+                lout.putAll(TelemacHelper.extractPOIfromCASRES(cas, pois));
             } catch (Exception e) {
                 e.printStackTrace();
             }
