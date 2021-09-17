@@ -9,7 +9,10 @@ fi
 
 . $HOME/opt/telemac-mascaret/v7p3r1/telemac.profile
 
-telemac2d.py -c ubugfmpich2 $CAS &
+NCPU=`grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}'`
+
+telemac2d.py --ncsize $NCPU -c ubugfmpich2 $CAS &
+
 PID=$!
 echo $PID >> PID
 wait $PID
