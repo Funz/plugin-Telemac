@@ -120,10 +120,10 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
         });
 
         if (csvfiles == null || csvfiles.length == 0) {
-            System.err.println("Warning: could not find csv files, so reading results from .res.");
+            lout.put("warning","Could not find csv files, so reading results from .res.");
+            File cas = null;
+            Properties pois = new Properties();
             try {
-                File cas = null;
-                Properties pois = new Properties();
                 for (File file : outdir.listFiles()) {
                     if (file.isFile() && file.getName().endsWith(".cas")) {
                         cas = file;
@@ -146,13 +146,18 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 }
 
                 if (pois.isEmpty()) {
-                    System.err.println("Could not find any .poi file !");
+                    lout.put("error","Could not find any .poi file !");
+                    return lout;
+                }
+
+                if (cas == null) {
+                    lout.put("error","Could not find .cas file !");
                     return lout;
                 }
 
                 lout.putAll(TelemacHelper.extractPOIfromCASRES(cas, pois));
             } catch (Exception e) {
-                e.printStackTrace();
+                lout.put("error","Could not read coord "+pois+" in results of cas "+cas.getName()+" : "+e.getMessage());
             }
         }
 
@@ -160,7 +165,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
             try {
                 lout.put(f.getName().substring(0, f.getName().indexOf(".csv")), readDoubleArray2D(FileUtils.readFileToString(f)));
             } catch (IOException ex) {
-                ex.printStackTrace();
+                lout.put("error","Could not read file "+f.getName()+" : "+ex.getMessage());
             }
         }
 
