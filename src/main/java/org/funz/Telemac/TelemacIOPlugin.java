@@ -205,10 +205,10 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 //System.err.println("? "+d);
                 File f = new File(cas.getAbsoluteFile().getParentFile(),d);
                 if (f.isFile()) {
-                    System.err.println("Found related file "+f);
+                    //System.err.println("Found related file "+f);
                     toimport.add(f);
                 } else {
-                    System.err.println("Could not find related file "+f);
+                    //System.err.println("Could not find related file "+f);
                 }
             }
         }

@@ -47,7 +47,7 @@ public class SerafinAdapterHelper {
 
             classCoordinate = Class.forName("com.vividsolutions.jts.geom.Coordinate", true, child);
 
-            System.out.println("Well loaded com.vividsolutions.jts.geom.Coordinate.");
+            //System.out.println("Well loaded com.vividsolutions.jts.geom.Coordinate.");
         } catch (Exception ex) {                
             System.err.println("Cannot load com.vividsolutions.jts.geom.Coordinate !");
             ex.printStackTrace();
@@ -58,7 +58,7 @@ public class SerafinAdapterHelper {
         serafinNewReader_setFile.invoke(serafinNewReader, source);
         Object read = serafinNewReader_read.invoke(serafinNewReader);
         serafinAdapter = read.getClass().getMethod("getSource").invoke(read);
-        System.err.println("serafinAdapter: " + serafinAdapter);
+        //System.err.println("serafinAdapter: " + serafinAdapter);
     }
 
     double[] getPasDeTemps() throws Exception {

@@ -140,13 +140,13 @@ public class TelemacHelper {
         SerafinAdapterHelper s = new SerafinAdapterHelper(res);
             
         dat.put("T", new double[][]{s.getPasDeTemps()});
-        System.err.println("  containing " + s.getPasDeTemps().length + " time steps");
+        //System.err.println("  containing " + s.getPasDeTemps().length + " time steps");
 
         for (int vi = 0; vi < s.getVariables().length; vi++) {
             String v = s.getVariables()[vi];
-            System.err.println("Reading " + v + " at:");
+            //System.err.println("Reading " + v + " at:");
             for (String p : poi.stringPropertyNames()) {
-                System.err.println(p);
+                //System.err.println(p);
                 if (poi.getProperty(p).contains(",") && poi.getProperty(p).contains(":")) { // so, this is a x0,y0:nx,ny:x1,y1 zone poi
                     String cs = poi.get(p).toString();
                     String cs0 = cs.substring(0, cs.indexOf(":"));
