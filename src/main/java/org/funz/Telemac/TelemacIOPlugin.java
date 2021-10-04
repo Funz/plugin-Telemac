@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -140,7 +142,10 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                             
                             pois.putAll(m);
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            StringWriter sw = new StringWriter();
+                            PrintWriter pw = new PrintWriter(sw);
+                            ex.printStackTrace(pw);                        
+                            lout.put("error","Could not read poi file "+file.getName()+" : "+sw.toString());
                         }
                     }
                 }
@@ -157,7 +162,10 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
 
                 lout.putAll(TelemacHelper.extractPOIfromCASRES(cas, pois));
             } catch (Exception e) {
-                lout.put("error","Could not read coord "+pois+" in results of cas "+cas.getName()+" : "+e.getMessage());
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                lout.put("error","Could not read coord "+pois+" in results of cas "+cas.getName()+" : "+sw.toString());
             }
         }
 
@@ -165,7 +173,10 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
             try {
                 lout.put(f.getName().substring(0, f.getName().indexOf(".csv")), readDoubleArray2D(FileUtils.readFileToString(f)));
             } catch (IOException ex) {
-                lout.put("error","Could not read file "+f.getName()+" : "+ex.getMessage());
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                ex.printStackTrace(pw);
+                lout.put("error","Could not read csv file "+f.getName()+" : "+sw.toString());
             }
         }
 

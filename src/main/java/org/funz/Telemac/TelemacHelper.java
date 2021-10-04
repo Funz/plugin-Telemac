@@ -3,6 +3,7 @@ package org.funz.Telemac;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class TelemacHelper {
         RES_VAR.put("BOTTOM", "B");
         RES_VAR.put("FROUDE", "F");
         RES_VAR.put("DEBIT SCALAIRE", "Q");
+        RES_VAR.put("SCALAR FLOWRATE", "Q");
         RES_VAR.put("DEBIT SUIVANT X", "I");
         RES_VAR.put("DEBIT SUIVANT Y", "J");
         RES_VAR.put("FROTTEMENT", "W");
@@ -144,9 +146,10 @@ public class TelemacHelper {
 
         for (int vi = 0; vi < s.getVariables().length; vi++) {
             String v = s.getVariables()[vi];
-            //System.err.println("Reading " + v + " at:");
+            //System.err.println("> Reading " + v + " at:");
             for (String p : poi.stringPropertyNames()) {
-                //System.err.println(p);
+                try {
+                //System.err.println(">  "+p);
                 if (poi.getProperty(p).contains(",") && poi.getProperty(p).contains(":")) { // so, this is a x0,y0:nx,ny:x1,y1 zone poi
                     String cs = poi.get(p).toString();
                     String cs0 = cs.substring(0, cs.indexOf(":"));
@@ -186,7 +189,7 @@ public class TelemacHelper {
                         }
                     }
                     dat.put(RES_VAR.get(v) + "_" + p, d);
-                    dat.put(p+"_xy", xy);
+                    dat.put("xy_" + p, xy);
 
                 } else if (poi.getProperty(p).contains(",")) { // so, this is a x,y poi, to get containing cell results
                     double[] d = new double[s.getPasDeTemps().length];
@@ -216,6 +219,11 @@ public class TelemacHelper {
                     }
                     dat.put(RES_VAR.get(v) + "_" + p, new double[][]{d});
                 }
+            }catch (Exception e) {
+                System.err.println("Failed to read " + v + " at: "+p+" :");
+                e.printStackTrace();
+                dat.put(RES_VAR.get(v) + "_" + p, new double[][]{});
+            }
             }
         }
 
@@ -309,6 +317,7 @@ public class TelemacHelper {
     }*/
 
     static String printDoubleArray2D(double[][] d) {
+        if (d==null || d.length==0) return null;
         Object[] o = new Object[d[0].length];
         for (int i = 0; i < o.length; i++) {
             Object[] oi = new Object[d.length];

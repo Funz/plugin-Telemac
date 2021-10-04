@@ -45,6 +45,7 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
         protected int runCommand() throws Exception {
             int ret = super.runCommand();
             if (ret != 0) {
+                System.err.println("Failed to run Telemac !");
                 return ret;
             }
 
@@ -76,7 +77,8 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
                 if (pois.isEmpty()) {
                     System.err.println("Could not find .poi file !");
                     return ret;
-                }
+                } else                     
+                    System.err.println("Will read poi: "+pois);
 
                 if (TelemacHelper.writeCSVfromCASRES(cas, pois)) {
                     File resfile = new File(cas.getAbsoluteFile().getParentFile(), TelemacHelper.readFichiersDe(cas, "RESULT")[0]);
