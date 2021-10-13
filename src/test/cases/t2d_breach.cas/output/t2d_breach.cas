@@ -6,7 +6,7 @@
 / ENTREES-SORTIES, FICHIERS
 /---------------------------------------------------------------------
 /
-RESULTS FILE              ='r2d_breach.slf'
+RESULTS FILE              ='r2d_breach.res'
 /
 BOUNDARY CONDITIONS FILE ='geo_breach.cli'
 /

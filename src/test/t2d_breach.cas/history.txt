@@ -1,0 +1,194 @@
+# all-in-one
+[10:20:31] Instanciating files
+[10:20:31] Instanciated files[/home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/t2d_breach.cas, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/t2d_breach.poi, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/geo_breach.cli, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/t2d_breach.liq, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/geo_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/ini_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/breach.txt]
+[10:20:31] Searching in cache: [[/home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/old]]
+[10:20:31] Cache not found.
+[10:20:31] Searching client ... 
+[10:20:31] Got provider...
+[10:20:31] Got client from provider...
+[10:20:31] reserved client ip=127.0.0.1 sc=1631866526832
+[10:20:31] Has a client: org.funz.api.BatchRun_v1$NewClientProvider$1@7723caaf
+[10:20:31] Trying to reserve client org.funz.api.BatchRun_v1$NewClientProvider$1@7723caaf
+[10:20:31] Using client localhost:33567
+[10:20:32] Sent files [/home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/t2d_breach.cas, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/t2d_breach.poi, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/geo_breach.cli, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/t2d_breach.liq, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/geo_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/ini_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach.cas_20210917-102023_5592464/spool/input/breach.txt]
+[10:20:32] Executing Telemac
+[10:20:37] info:  ITERATION       60    TIME:  30.0000 S null null
+[10:20:37] info:  ITERATION       60    TIME:  30.0000 S null null saved.
+[10:20:42] info:  ITERATION      200    TIME:  1 MN  40.0000 S   (      100.0000 S) null null
+[10:20:42] info:  ITERATION      200    TIME:  1 MN  40.0000 S   (      100.0000 S) null null saved.
+[10:20:47] info:  ITERATION      320    TIME:  2 MN  40.0000 S   (      160.0000 S) null null
+[10:20:47] info:  ITERATION      320    TIME:  2 MN  40.0000 S   (      160.0000 S) null null saved.
+[10:20:52] info:  ITERATION      460    TIME:  3 MN  50.0000 S   (      230.0000 S) null null
+[10:20:52] info:  ITERATION      460    TIME:  3 MN  50.0000 S   (      230.0000 S) null null saved.
+[10:20:57] info:  ITERATION      580    TIME:  4 MN  50.0000 S   (      290.0000 S) null null
+[10:20:57] info:  ITERATION      580    TIME:  4 MN  50.0000 S   (      290.0000 S) null null saved.
+[10:21:02] info:  ITERATION      700    TIME:  5 MN  50.0000 S   (      350.0000 S) null null
+[10:21:02] info:  ITERATION      700    TIME:  5 MN  50.0000 S   (      350.0000 S) null null saved.
+[10:21:07] info:  ITERATION      820    TIME:  6 MN  50.0000 S   (      410.0000 S) null null
+[10:21:07] info:  ITERATION      820    TIME:  6 MN  50.0000 S   (      410.0000 S) null null saved.
+[10:21:12] info:  ITERATION      960    TIME:  8 MN   0.0000 S   (      480.0000 S) null null
+[10:21:12] info:  ITERATION      960    TIME:  8 MN   0.0000 S   (      480.0000 S) null null saved.
+[10:21:17] info:  ITERATION     1080    TIME:  9 MN   0.0000 S   (      540.0000 S) null null
+[10:21:17] info:  ITERATION     1080    TIME:  9 MN   0.0000 S   (      540.0000 S) null null saved.
+[10:21:22] info:  ITERATION     1220    TIME: 10 MN  10.0000 S   (      610.0000 S) null null
+[10:21:22] info:  ITERATION     1220    TIME: 10 MN  10.0000 S   (      610.0000 S) null null saved.
+[10:21:27] info:  ITERATION     1340    TIME: 11 MN  10.0000 S   (      670.0000 S) null null
+[10:21:27] info:  ITERATION     1340    TIME: 11 MN  10.0000 S   (      670.0000 S) null null saved.
+[10:21:32] info:  ITERATION     1440    TIME: 12 MN   0.0000 S   (      720.0000 S) null null
+[10:21:32] info:  ITERATION     1440    TIME: 12 MN   0.0000 S   (      720.0000 S) null null saved.
+[10:21:37] info:  ITERATION     1560    TIME: 13 MN   0.0000 S   (      780.0000 S) null null
+[10:21:37] info:  ITERATION     1560    TIME: 13 MN   0.0000 S   (      780.0000 S) null null saved.
+[10:21:42] info:  ITERATION     1680    TIME: 14 MN   0.0000 S   (      840.0000 S) null null
+[10:21:42] info:  ITERATION     1680    TIME: 14 MN   0.0000 S   (      840.0000 S) null null saved.
+[10:21:47] info:  ITERATION     1780    TIME: 14 MN  50.0000 S   (      890.0000 S) null null
+[10:21:47] info:  ITERATION     1780    TIME: 14 MN  50.0000 S   (      890.0000 S) null null saved.
+[10:21:52] info:  ITERATION     1880    TIME: 15 MN  40.0000 S   (      940.0000 S) null null
+[10:21:52] info:  ITERATION     1880    TIME: 15 MN  40.0000 S   (      940.0000 S) null null saved.
+[10:21:57] info:  ITERATION     1980    TIME: 16 MN  30.0000 S   (      990.0000 S) null null
+[10:21:57] info:  ITERATION     1980    TIME: 16 MN  30.0000 S   (      990.0000 S) null null saved.
+[10:22:02] info:  ITERATION     2080    TIME: 17 MN  20.0000 S   (     1040.0000 S) null null
+[10:22:02] info:  ITERATION     2080    TIME: 17 MN  20.0000 S   (     1040.0000 S) null null saved.
+[10:22:07] info:  ITERATION     2180    TIME: 18 MN  10.0000 S   (     1090.0000 S) null null
+[10:22:07] info:  ITERATION     2180    TIME: 18 MN  10.0000 S   (     1090.0000 S) null null saved.
+[10:22:12] info:  ITERATION     2280    TIME: 19 MN   0.0000 S   (     1140.0000 S) null null
+[10:22:12] info:  ITERATION     2280    TIME: 19 MN   0.0000 S   (     1140.0000 S) null null saved.
+[10:22:17] info:  ITERATION     2380    TIME: 19 MN  50.0000 S   (     1190.0000 S) null null
+[10:22:17] info:  ITERATION     2380    TIME: 19 MN  50.0000 S   (     1190.0000 S) null null saved.
+[10:22:22] info:  ITERATION     2460    TIME: 20 MN  30.0000 S   (     1230.0000 S) null null
+[10:22:22] info:  ITERATION     2460    TIME: 20 MN  30.0000 S   (     1230.0000 S) null null saved.
+[10:22:27] info:  ITERATION     2560    TIME: 21 MN  20.0000 S   (     1280.0000 S) null null
+[10:22:27] info:  ITERATION     2560    TIME: 21 MN  20.0000 S   (     1280.0000 S) null null saved.
+[10:22:32] info:  ITERATION     2660    TIME: 22 MN  10.0000 S   (     1330.0000 S) null null
+[10:22:32] info:  ITERATION     2660    TIME: 22 MN  10.0000 S   (     1330.0000 S) null null saved.
+[10:22:37] info:  ITERATION     2760    TIME: 23 MN   0.0000 S   (     1380.0000 S) null null
+[10:22:37] info:  ITERATION     2760    TIME: 23 MN   0.0000 S   (     1380.0000 S) null null saved.
+[10:22:42] info:  ITERATION     2860    TIME: 23 MN  50.0000 S   (     1430.0000 S) null null
+[10:22:42] info:  ITERATION     2860    TIME: 23 MN  50.0000 S   (     1430.0000 S) null null saved.
+[10:22:47] info:  ITERATION     2960    TIME: 24 MN  40.0000 S   (     1480.0000 S) null null
+[10:22:47] info:  ITERATION     2960    TIME: 24 MN  40.0000 S   (     1480.0000 S) null null saved.
+[10:22:52] info:  ITERATION     3040    TIME: 25 MN  20.0000 S   (     1520.0000 S) null null
+[10:22:52] info:  ITERATION     3040    TIME: 25 MN  20.0000 S   (     1520.0000 S) null null saved.
+[10:22:57] info:  ITERATION     3140    TIME: 26 MN  10.0000 S   (     1570.0000 S) null null
+[10:22:57] info:  ITERATION     3140    TIME: 26 MN  10.0000 S   (     1570.0000 S) null null saved.
+[10:23:02] info:  ITERATION     3240    TIME: 27 MN   0.0000 S   (     1620.0000 S) null null
+[10:23:02] info:  ITERATION     3240    TIME: 27 MN   0.0000 S   (     1620.0000 S) null null saved.
+[10:23:07] info:  ITERATION     3320    TIME: 27 MN  40.0000 S   (     1660.0000 S) null null
+[10:23:07] info:  ITERATION     3320    TIME: 27 MN  40.0000 S   (     1660.0000 S) null null saved.
+[10:23:12] info:  ITERATION     3420    TIME: 28 MN  30.0000 S   (     1710.0000 S) null null
+[10:23:12] info:  ITERATION     3420    TIME: 28 MN  30.0000 S   (     1710.0000 S) null null saved.
+[10:23:17] info:  ITERATION     3500    TIME: 29 MN  10.0000 S   (     1750.0000 S) null null
+[10:23:17] info:  ITERATION     3500    TIME: 29 MN  10.0000 S   (     1750.0000 S) null null saved.
+[10:23:22] info:  ITERATION     3580    TIME: 29 MN  50.0000 S   (     1790.0000 S) null null
+[10:23:22] info:  ITERATION     3580    TIME: 29 MN  50.0000 S   (     1790.0000 S) null null saved.
+[10:23:27] info:  ITERATION     3660    TIME: 30 MN  30.0000 S   (     1830.0000 S) null null
+[10:23:27] info:  ITERATION     3660    TIME: 30 MN  30.0000 S   (     1830.0000 S) null null saved.
+[10:23:32] info:  ITERATION     3740    TIME: 31 MN  10.0000 S   (     1870.0000 S) null null
+[10:23:32] info:  ITERATION     3740    TIME: 31 MN  10.0000 S   (     1870.0000 S) null null saved.
+[10:23:37] info:  ITERATION     3820    TIME: 31 MN  50.0000 S   (     1910.0000 S) null null
+[10:23:37] info:  ITERATION     3820    TIME: 31 MN  50.0000 S   (     1910.0000 S) null null saved.
+[10:23:42] info:  ITERATION     3900    TIME: 32 MN  30.0000 S   (     1950.0000 S) null null
+[10:23:42] info:  ITERATION     3900    TIME: 32 MN  30.0000 S   (     1950.0000 S) null null saved.
+[10:23:47] info:  ITERATION     3960    TIME: 33 MN   0.0000 S   (     1980.0000 S) null null
+[10:23:47] info:  ITERATION     3960    TIME: 33 MN   0.0000 S   (     1980.0000 S) null null saved.
+[10:23:52] info:  ITERATION     4040    TIME: 33 MN  40.0000 S   (     2020.0000 S) null null
+[10:23:52] info:  ITERATION     4040    TIME: 33 MN  40.0000 S   (     2020.0000 S) null null saved.
+[10:23:57] info:  ITERATION     4100    TIME: 34 MN  10.0000 S   (     2050.0000 S) null null
+[10:23:57] info:  ITERATION     4100    TIME: 34 MN  10.0000 S   (     2050.0000 S) null null saved.
+[10:24:02] info:  ITERATION     4180    TIME: 34 MN  50.0000 S   (     2090.0000 S) null null
+[10:24:02] info:  ITERATION     4180    TIME: 34 MN  50.0000 S   (     2090.0000 S) null null saved.
+[10:24:07] info:  ITERATION     4240    TIME: 35 MN  20.0000 S   (     2120.0000 S) null null
+[10:24:07] info:  ITERATION     4240    TIME: 35 MN  20.0000 S   (     2120.0000 S) null null saved.
+[10:24:12] info:  ITERATION     4320    TIME: 36 MN   0.0000 S   (     2160.0000 S) null null
+[10:24:12] info:  ITERATION     4320    TIME: 36 MN   0.0000 S   (     2160.0000 S) null null saved.
+[10:24:17] info:  ITERATION     4380    TIME: 36 MN  30.0000 S   (     2190.0000 S) null null
+[10:24:17] info:  ITERATION     4380    TIME: 36 MN  30.0000 S   (     2190.0000 S) null null saved.
+[10:24:22] info:  ITERATION     4440    TIME: 37 MN   0.0000 S   (     2220.0000 S) null null
+[10:24:22] info:  ITERATION     4440    TIME: 37 MN   0.0000 S   (     2220.0000 S) null null saved.
+[10:24:27] info:  ITERATION     4520    TIME: 37 MN  40.0000 S   (     2260.0000 S) null null
+[10:24:27] info:  ITERATION     4520    TIME: 37 MN  40.0000 S   (     2260.0000 S) null null saved.
+[10:24:32] info:  ITERATION     4580    TIME: 38 MN  10.0000 S   (     2290.0000 S) null null
+[10:24:32] info:  ITERATION     4580    TIME: 38 MN  10.0000 S   (     2290.0000 S) null null saved.
+[10:24:37] info:  ITERATION     4640    TIME: 38 MN  40.0000 S   (     2320.0000 S) null null
+[10:24:37] info:  ITERATION     4640    TIME: 38 MN  40.0000 S   (     2320.0000 S) null null saved.
+[10:24:42] info:  ITERATION     4720    TIME: 39 MN  20.0000 S   (     2360.0000 S) null null
+[10:24:42] info:  ITERATION     4720    TIME: 39 MN  20.0000 S   (     2360.0000 S) null null saved.
+[10:24:47] info:  ITERATION     4780    TIME: 39 MN  50.0000 S   (     2390.0000 S) null null
+[10:24:47] info:  ITERATION     4780    TIME: 39 MN  50.0000 S   (     2390.0000 S) null null saved.
+[10:24:52] info:  ITERATION     4840    TIME: 40 MN  20.0000 S   (     2420.0000 S) null null
+[10:24:52] info:  ITERATION     4840    TIME: 40 MN  20.0000 S   (     2420.0000 S) null null saved.
+[10:24:57] info:  ITERATION     4900    TIME: 40 MN  50.0000 S   (     2450.0000 S) null null
+[10:24:57] info:  ITERATION     4900    TIME: 40 MN  50.0000 S   (     2450.0000 S) null null saved.
+[10:25:02] info:  ITERATION     4980    TIME: 41 MN  30.0000 S   (     2490.0000 S) null null
+[10:25:02] info:  ITERATION     4980    TIME: 41 MN  30.0000 S   (     2490.0000 S) null null saved.
+[10:25:07] info:  ITERATION     5040    TIME: 42 MN   0.0000 S   (     2520.0000 S) null null
+[10:25:07] info:  ITERATION     5040    TIME: 42 MN   0.0000 S   (     2520.0000 S) null null saved.
+[10:25:12] info:  ITERATION     5100    TIME: 42 MN  30.0000 S   (     2550.0000 S) null null
+[10:25:12] info:  ITERATION     5100    TIME: 42 MN  30.0000 S   (     2550.0000 S) null null saved.
+[10:25:17] info:  ITERATION     5160    TIME: 43 MN   0.0000 S   (     2580.0000 S) null null
+[10:25:17] info:  ITERATION     5160    TIME: 43 MN   0.0000 S   (     2580.0000 S) null null saved.
+[10:25:22] info:  ITERATION     5240    TIME: 43 MN  40.0000 S   (     2620.0000 S) null null
+[10:25:22] info:  ITERATION     5240    TIME: 43 MN  40.0000 S   (     2620.0000 S) null null saved.
+[10:25:27] info:  ITERATION     5300    TIME: 44 MN  10.0000 S   (     2650.0000 S) null null
+[10:25:27] info:  ITERATION     5300    TIME: 44 MN  10.0000 S   (     2650.0000 S) null null saved.
+[10:25:32] info:  ITERATION     5360    TIME: 44 MN  40.0000 S   (     2680.0000 S) null null
+[10:25:32] info:  ITERATION     5360    TIME: 44 MN  40.0000 S   (     2680.0000 S) null null saved.
+[10:25:35] info:  ITERATION     5400    TIME: 45 MN   0.0000 S   (     2700.0000 S) null null
+[10:25:35] info:  ITERATION     5400    TIME: 45 MN   0.0000 S   (     2700.0000 S) null null saved.
+[10:25:37] Execution done.
+[10:25:37] Remote archiving done.
+[10:25:37] Transfer done.
+[10:25:37] /null_xymediumright.csv
+[10:25:37] /H_xymediumcenter.csv
+[10:25:37] /B_XY.csv
+[10:25:37] /U_xymediumcenter.csv
+[10:25:37] /S_xylowerright.csv
+[10:25:37] /XY_xy.csv
+[10:25:37] /U_xymediumright.csv
+[10:25:37] /B_xylowerright.csv
+[10:25:37] /H_XY.csv
+[10:25:37] /geo_breach.slf
+[10:25:37] /W_XY.csv
+[10:25:37] /H_xylowerright.csv
+[10:25:37] /U_XY.csv
+[10:25:37] /geo_breach.cli
+[10:25:37] /H_xylowercenter.csv
+[10:25:37] /B_xylowercenter.csv
+[10:25:37] /S_XY.csv
+[10:25:37] /L_xylowercenter.csv
+[10:25:37] /log.txt
+[10:25:37] /V_xylowercenter.csv
+[10:25:37] /T.csv
+[10:25:37] /W_xymediumright.csv
+[10:25:37] /S_xylowercenter.csv
+[10:25:37] /B_xymediumcenter.csv
+[10:25:37] /ini_breach.slf
+[10:25:37] /W_xylowercenter.csv
+[10:25:37] /L_xylowerright.csv
+[10:25:37] /breach.txt
+[10:25:37] /null_xymediumcenter.csv
+[10:25:37] /V_xymediumright.csv
+[10:25:37] /H_xymediumright.csv
+[10:25:37] /S_xymediumcenter.csv
+[10:25:37] /S_xymediumright.csv
+[10:25:37] /L_XY.csv
+[10:25:37] /W_xymediumcenter.csv
+[10:25:37] /V_XY.csv
+[10:25:37] /t2d_breach.poi
+[10:25:37] /U_xylowerright.csv
+[10:25:37] /L_xymediumright.csv
+[10:25:37] /L_xymediumcenter.csv
+[10:25:37] /out.txt
+[10:25:37] /null_XY.csv
+[10:25:37] /t2d_breach.liq
+[10:25:37] /V_xymediumcenter.csv
+[10:25:37] /null_xylowerright.csv
+[10:25:37] /null_xylowercenter.csv
+[10:25:37] /t2d_breach.cas
+[10:25:37] /err.txt
+[10:25:37] /B_xymediumright.csv
+[10:25:37] /U_xylowercenter.csv
+[10:25:37] /V_xylowerright.csv
+[10:25:37] /W_xylowerright.csv
+[10:25:37] Local unzip done.
+[10:25:37] Parsing results.
+[10:25:37] Results parsed: {V_xymediumcenter=[[D@4776f8d7, B_XY=[[D@70dce7e3, W_XY=[[D@772145b7, null_XY=[[D@919b066, U_XY=[[D@79d941d2, null_xylowerright=[[D@6e2d52f5, L_xylowercenter=[[D@13dcae7a, L_xymediumright=[[D@5782a6e7, B_xymediumcenter=[[D@64e6aa14, S_XY=[[D@6058f687, B_xymediumright=[[D@16813b88, B_xylowercenter=[[D@54760221, B_xylowerright=[[D@511a4b1, S_xymediumright=[[D@22da865a, S_xylowercenter=[[D@3d18a4f2, path=, null_xymediumright=[[D@591bde7a, T=[[D@51a7ddc4, H_xylowerright=[[D@27b969fc, V_xylowercenter=[[D@5ffe76cd, W_xymediumcenter=[[D@58118b46, U_xymediumright=[[D@3737247d, W_xymediumright=[[D@5bad4dee, V_XY=[[D@77c90048, W_xylowerright=[[D@23d6ee4c, [T]=[[D@51a7ddc4, H_xylowercenter=[[D@2dcc2287, S_xylowerright=[[D@1cbfc8ed, H_xymediumright=[[D@23cb4072, S_xymediumcenter=[[D@377b7ec9, null_xymediumcenter=[[D@7b6faabb, U_xylowerright=[[D@1975fd9b, V_xylowerright=[[D@6044f617, L_xylowerright=[[D@ca541e0, null_xylowercenter=[[D@a9908bd, U_xylowercenter=[[D@3c36b550, U_xymediumcenter=[[D@7b85088f, L_XY=[[D@5d09ec5e, H_xymediumcenter=[[D@1f17dba2, W_xylowercenter=[[D@16026125, H_XY=[[D@4590d21a, V_xymediumright=[[D@57e9adea, L_xymediumcenter=[[D@7602a67e, XY_xy=[[D@730cead2}

@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import static org.funz.Telemac.TelemacHelper.CommentLine;
 import static org.funz.Telemac.TelemacHelper.readDoubleArray2D;
+import static org.funz.Telemac.TelemacHelper.simplify;
 import static org.funz.Telemac.TelemacHelper.readVarsSortiesGraphiques;
 import org.funz.ioplugin.*;
 import org.funz.parameter.OutputFunctionExpression;
@@ -122,7 +123,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
         });
 
         if (csvfiles == null || csvfiles.length == 0) {
-            lout.put("warning","Could not find csv files, so reading results from .res.");
+            lout.put("warning","Could not find csv files, so reading results from results slf.");
             File cas = null;
             Properties pois = new Properties();
             try {
@@ -167,8 +168,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 e.printStackTrace(pw);
                 lout.put("error","Could not read coord "+pois+" in results of cas "+cas.getName()+" : "+sw.toString());
             }
-        }
-
+        } else {
         for (File f : csvfiles) {
             try {
                 lout.put(f.getName().substring(0, f.getName().indexOf(".csv")), readDoubleArray2D(FileUtils.readFileToString(f)));
@@ -178,6 +178,12 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 ex.printStackTrace(pw);
                 lout.put("error","Could not read csv file "+f.getName()+" : "+sw.toString());
             }
+        }
+        }
+
+        for (String k:lout.keySet()) { // simplify if possible to 1D arrays
+            if (lout.get(k) instanceof double[][])
+            lout.put(k,simplify((double[][])lout.get(k)));
         }
 
         return lout;

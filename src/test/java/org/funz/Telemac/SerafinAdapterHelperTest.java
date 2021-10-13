@@ -129,17 +129,17 @@ public class SerafinAdapterHelperTest {
     public void testProxy() throws Exception {
 
         SerafinNewReader r = new SerafinNewReader();
-        r.setFile(new File("src/test/cases/t2d_breach.cas/output/r2d_breach.slf"));
+        r.setFile(new File("src/test/cases/t2d_breach_slf.cas/output/r2d_breach.slf"));
         SerafinAdapter s = (SerafinAdapter) (r.read().getSource());
 
-        SerafinAdapterHelper sp = new SerafinAdapterHelper(new File("src/test/cases/t2d_breach.cas/output/r2d_breach.slf"));
+        SerafinAdapterHelper sp = new SerafinAdapterHelper(new File("src/test/cases/t2d_breach_slf.cas/output/r2d_breach.slf"));
         assert Arrays.deepEquals(s.getVariables(), sp.getVariables()) : Arrays.asList(s.getVariables()) + " != " + Arrays.asList(sp.getVariables());
 
         Properties p = new Properties();
         //p.setProperty("p1", "1000");
         p.setProperty("xymediumcenter", "2500,250");
         try {
-            assert ASCII.cat(",\n", extractPOIfromRES_NO_PROXY(new File("src/test/cases/t2d_breach.cas/output/t2d_breach.cas"), p)).equals(ASCII.cat(",\n", extractPOIfromRES_PROXY(new File("src/test/cases/t2d_breach.cas/output/t2d_breach.cas"), p))) : ASCII.cat(",\n", extractPOIfromRES_NO_PROXY(new File("src/test/cases/t2d_breach.cas/output/t2d_breach.cas"), p)) + "\n != \n" + ASCII.cat(",\n", extractPOIfromRES_PROXY(new File("src/test/cases/t2d_breach.cas/output/t2d_breach.cas"), p));
+            assert ASCII.cat(",\n", extractPOIfromRES_NO_PROXY(new File("src/test/cases/t2d_breach_slf.cas/output/t2d_breach_slf.cas"), p)).equals(ASCII.cat(",\n", extractPOIfromRES_PROXY(new File("src/test/cases/t2d_breach_slf.cas/output/t2d_breach_slf.cas"), p))) : ASCII.cat(",\n", extractPOIfromRES_NO_PROXY(new File("src/test/cases/t2d_breach_slf.cas/output/t2d_breach_slf.cas"), p)) + "\n != \n" + ASCII.cat(",\n", extractPOIfromRES_PROXY(new File("src/test/cases/t2d_breach_slf.cas/output/t2d_breach_slf.cas"), p));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -346,4 +346,21 @@ public class TelemacHelper {
         }
         return d;
     }
+
+    static Object simplify(double[][] a) {
+        if (a==null) return null;
+        if (a.length==1) {
+            return a[0];
+        } else if (a.length>1 && a[0]!=null && a[0].length==1) {
+            double[] a0 = new double[a.length];
+            for (int i =0; i < a.length; i++) {
+                if (a[i].length>0)
+                    a0[i] = a[i][0];
+                else 
+                    a0[i] = Double.NaN;
+            }
+            return a0;
+        } else 
+            return a;
+    }
 }

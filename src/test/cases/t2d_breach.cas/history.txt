@@ -1,0 +1,75 @@
+# all-in-one
+[17:00:25] Instanciating files
+[17:00:25] Instanciated files[/home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/t2d_breach_slf.cas, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/t2d_breach.poi, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/r2d_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/geo_breach.cli, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/t2d_breach.liq, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/geo_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/ini_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/breach.txt]
+[17:00:25] Searching in cache: [[/home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/old]]
+[17:00:25] Cache not found.
+[17:00:25] Searching client ... 
+[17:00:25] Got provider...
+[17:00:25] Got client from provider...
+[17:00:25] reserved client ip=127.0.0.1 sc=1634136797098
+[17:00:25] Has a client: org.funz.api.BatchRun_v1$NewClientProvider$1@57712bf9
+[17:00:25] Trying to reserve client org.funz.api.BatchRun_v1$NewClientProvider$1@57712bf9
+[17:00:25] Using client localhost:34943
+[17:00:26] Sent files [/home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/t2d_breach_slf.cas, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/t2d_breach.poi, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/r2d_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/geo_breach.cli, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/t2d_breach.liq, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/geo_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/ini_breach.slf_md5, /home/richet/.Funz/projects/t2d_breach_slf.cas_20211013-170019/spool/input/breach.txt]
+[17:00:26] Executing Telemac
+[17:00:28] info:  ftp://127.0.0.1:2137 null
+[17:00:28] info:  ftp://127.0.0.1:2137 null saved.
+[17:00:30] Execution done.
+[17:00:31] Remote archiving done.
+[17:00:31] Transfer done.
+[17:00:31] /null_xymediumright.csv
+[17:00:31] /H_xymediumcenter.csv
+[17:00:31] /B_XY.csv
+[17:00:31] /U_xymediumcenter.csv
+[17:00:31] /S_xylowerright.csv
+[17:00:31] /U_xymediumright.csv
+[17:00:31] /t2d_breach_slf.cas
+[17:00:31] /B_xylowerright.csv
+[17:00:31] /H_XY.csv
+[17:00:31] /geo_breach.slf
+[17:00:31] /W_XY.csv
+[17:00:31] /H_xylowerright.csv
+[17:00:31] /U_XY.csv
+[17:00:31] /geo_breach.cli
+[17:00:31] /H_xylowercenter.csv
+[17:00:31] /B_xylowercenter.csv
+[17:00:31] /S_XY.csv
+[17:00:31] /L_xylowercenter.csv
+[17:00:31] /r2d_breach.slf
+[17:00:31] /log.txt
+[17:00:31] /V_xylowercenter.csv
+[17:00:31] /T.csv
+[17:00:31] /W_xymediumright.csv
+[17:00:31] /S_xylowercenter.csv
+[17:00:31] /B_xymediumcenter.csv
+[17:00:31] /ini_breach.slf
+[17:00:31] /W_xylowercenter.csv
+[17:00:31] /L_xylowerright.csv
+[17:00:31] /breach.txt
+[17:00:31] /null_xymediumcenter.csv
+[17:00:31] /V_xymediumright.csv
+[17:00:31] /H_xymediumright.csv
+[17:00:31] /S_xymediumcenter.csv
+[17:00:31] /S_xymediumright.csv
+[17:00:31] /L_XY.csv
+[17:00:31] /W_xymediumcenter.csv
+[17:00:31] /V_XY.csv
+[17:00:31] /t2d_breach.poi
+[17:00:31] /U_xylowerright.csv
+[17:00:31] /L_xymediumright.csv
+[17:00:31] /L_xymediumcenter.csv
+[17:00:31] /out.txt
+[17:00:31] /null_XY.csv
+[17:00:31] /t2d_breach.liq
+[17:00:31] /V_xymediumcenter.csv
+[17:00:31] /xy_XY.csv
+[17:00:31] /null_xylowerright.csv
+[17:00:31] /null_xylowercenter.csv
+[17:00:31] /err.txt
+[17:00:31] /B_xymediumright.csv
+[17:00:31] /U_xylowercenter.csv
+[17:00:31] /V_xylowerright.csv
+[17:00:31] /W_xylowerright.csv
+[17:00:31] Local unzip done.
+[17:00:31] Parsing results.
+[17:00:31] Results parsed: {V_xymediumcenter=[D@508682b2, B_XY=[[D@4cb99614, W_XY=[[D@3479794c, null_XY=[[D@7faf57dc, U_XY=[[D@1b58d989, null_xylowerright=[D@1b51e5c0, L_xylowercenter=[D@641d4cff, L_xymediumright=[D@6109f617, B_xymediumcenter=[D@3c40ef2e, S_XY=[[D@28ab7283, B_xymediumright=[D@26dfa9dd, B_xylowercenter=[D@8c84a5f, B_xylowerright=[D@33caedf7, S_xymediumright=[D@4006be67, S_xylowercenter=[D@1bcc76fb, path=, null_xymediumright=[D@511c4d6f, T=[D@35dda7ee, H_xylowerright=[D@40ddc2b4, V_xylowercenter=[D@385e1ffa, W_xymediumcenter=[D@b1a4aab, U_xymediumright=[D@53a06ef1, W_xymediumright=[D@7dc6de53, V_XY=[[D@352fbfde, W_xylowerright=[D@6c39e4c2, [T]=[D@35dda7ee, H_xylowercenter=[D@3c3ed852, S_xylowerright=[D@7741bdc0, H_xymediumright=[D@3fd83db9, S_xymediumcenter=[D@1c64c174, null_xymediumcenter=[D@56d276e2, xy_XY=[[D@2c876e45, U_xylowerright=[D@52ccbb99, V_xylowerright=[D@6899afd5, L_xylowerright=[D@2d39b142, null_xylowercenter=[D@3a5b07e6, U_xylowercenter=[D@dfc7347, U_xymediumcenter=[D@283e922a, L_XY=[[D@486d85ce, H_xymediumcenter=[D@2a6bcf12, W_xylowercenter=[D@44e3f753, H_XY=[[D@18909227, V_xymediumright=[D@3c77370e, L_xymediumcenter=[D@48907ccd}

@@ -82,9 +82,11 @@ public class TelemacCPlugin extends DefaultCalculatorPlugin {
 
                 if (TelemacHelper.writeCSVfromCASRES(cas, pois)) {
                     File resfile = new File(cas.getAbsoluteFile().getParentFile(), TelemacHelper.readFichiersDe(cas, "RESULT")[0]);
-                    System.err.println("Could extract CSV, will delete results file: "+resfile+ " (exists: "+resfile.isFile()+")");
-                    if (resfile.isFile()) {
-                        FileUtils.forceDelete(resfile);
+                    if (resfile.getName().endsWith(".res")) {
+                        System.err.println("Could extract CSV, will delete results file: "+resfile+ " (exists: "+resfile.isFile()+")");
+                        if (resfile.isFile()) {
+                            FileUtils.forceDelete(resfile);
+                        }
                     }
                 } else System.err.println("Could not extract CSV, keep results file");
 
