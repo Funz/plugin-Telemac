@@ -100,7 +100,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
 
             _output.put("T", new double[]{0, .1, .2, .3, .4, .5, .6, .7, .8, .9});
 
-            if (variables_sorties_graphiques != null && pois.isEmpty()) {
+            if (variables_sorties_graphiques != null && !pois.isEmpty()) {
                 for (String o : variables_sorties_graphiques) {
                     for (String p : pois.stringPropertyNames()) {
                         _output.put(o + "_" + p.replace(" ", ""), new double[]{Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()});
