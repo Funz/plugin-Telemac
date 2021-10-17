@@ -15,6 +15,9 @@ import org.fudaa.dodico.ef.operation.EfLineSingleIntersectFinder;
 //import org.fudaa.dodico.ef.io.serafin.SerafinAdapter;
 //import org.fudaa.dodico.ef.io.serafin.SerafinNewReader;
 import org.funz.Telemac.SerafinAdapterHelper.Coordinate;
+import org.funz.Telemac.SerafinAdapterHelper.Grid;
+import org.funz.util.ASCII;
+import org.funz.util.Data;
 import org.funz.util.Parser;
 import static org.funz.util.ParserUtils.getASCIIFileLines;
 
@@ -161,36 +164,21 @@ public class TelemacHelper {
                     String cs1 = cs.substring(cs.lastIndexOf(":")+1);
                     double x1 = Double.parseDouble(cs1.substring(0, cs1.indexOf(",")));
                     double y1 = Double.parseDouble(cs1.substring(cs1.indexOf(",") + 1));
-                    double[][] d = new double[s.getPasDeTemps().length][nx*ny];
+                    double[][] td = new double[nx*ny][s.getPasDeTemps().length];
                     double[][] xy = new double[nx*ny][2];
                     for (int nxi = 0; nxi < nx; nxi++) {
                         double x = x0 + ((double)nxi)/((double)nx) * (x1-x0);
                         for (int nyi = 0; nyi < ny; nyi++) {
                             double y = y0 + ((double)nyi)/((double)ny) * (y1-y0);
-
-                            System.err.println("x:"+x+" y:"+y);
                             xy[nxi+nx*nyi][0] = x;
                             xy[nxi+nx*nyi][1] = y;
-                            
                             int ie = s.getGrid().getEltContainingXY(x, y);
                             int[] Ix = s.getGrid().getElement(ie).getIndices();
-                            int ix = -1;
-                            double min_dist2 = Double.MAX_VALUE;
-                            for (int _ix = 0; _ix < Ix.length; _ix++) {
-                                double dist2 = Math.pow(s.getGrid().getPtX(Ix[_ix]) - x, 2) + Math.pow(s.getGrid().getPtY(Ix[_ix]) - y, 2);
-                                if (dist2 < min_dist2) {
-                                    min_dist2 = dist2;
-                                    ix = Ix[_ix];
-                                }
-                            }
-                            for (int i = 0; i < d.length; i++) {
-                                d[i][nxi+nx*nyi] = s.getDonnees(i, vi)[ix];
-                            }
+                            td[nxi+nx*nyi] = interp(x, y, vi, s, Ix);
                         }
                     }
-                    dat.put(RES_VAR.get(v) + "_" + p, d);
+                    dat.put(RES_VAR.get(v) + "_" + p, transpose(td));
                     dat.put("xy_" + p, xy);
-
                 } else if (poi.getProperty(p).contains(",")) { // so, this is a x,y poi, to get containing cell results
                     double[] d = new double[s.getPasDeTemps().length];
                     String cs = poi.get(p).toString();
@@ -198,19 +186,7 @@ public class TelemacHelper {
                     double y = Double.parseDouble(cs.substring(cs.indexOf(",") + 1));
                     int ie = s.getGrid().getEltContainingXY(x, y);
                     int[] Ix = s.getGrid().getElement(ie).getIndices();
-                    int ix = -1;
-                    double min_dist2 = Double.MAX_VALUE;
-                    for (int _ix = 0; _ix < Ix.length; _ix++) {
-                        double dist2 = Math.pow(s.getGrid().getPtX(Ix[_ix]) - x, 2) + Math.pow(s.getGrid().getPtY(Ix[_ix]) - y, 2);
-                        if (dist2 < min_dist2) {
-                            min_dist2 = dist2;
-                            ix = Ix[_ix];
-                        }
-                    }
-                    for (int i = 0; i < d.length; i++) {
-                        d[i] = s.getDonnees(i, vi)[ix];
-                    }
-                    dat.put(RES_VAR.get(v) + "_" + p, new double[][]{d});
+                    dat.put(RES_VAR.get(v) + "_" + p, new double[][]{interp(x, y, vi, s, Ix)});
                 } else { // so, it is a cell number result
                     double[] d = new double[s.getPasDeTemps().length];
                     int ix = Integer.parseInt(poi.get(p).toString()) - 1;
@@ -229,6 +205,58 @@ public class TelemacHelper {
 
         return dat;
     }
+
+    public static double[] interp(double _xt, double _yt, int variable_index, SerafinAdapterHelper s, int[] neighbours_points) throws Exception {
+        double[] d = new double[s.getPasDeTemps().length];
+        if (neighbours_points.length == 1) { // just one point matching. No interp, using raw data
+            for (int i = 0; i < d.length; i++) {
+                d[i] = s.getDonnees(i, variable_index)[neighbours_points[0]] ;
+            }
+        } else if (neighbours_points.length == 3) { // Triangular inteprolation. this should be the main case
+            System.out.println("neighbours_points.length == 3");
+            Grid _g = s.getGrid();
+            int _pt1 = neighbours_points[0];
+            int _pt2 = neighbours_points[1];
+            int _pt3 = neighbours_points[2];
+            for (int i = 0; i < d.length; i++) {
+                double _v1 = s.getDonnees(i, variable_index)[neighbours_points[0]];
+                double _v2 = s.getDonnees(i, variable_index)[neighbours_points[1]];
+                double _v3 = s.getDonnees(i, variable_index)[neighbours_points[2]];
+
+                // Port from org.fudaa.dodico.ef.interpolation;.EfGridDataInterpolator
+                double a1 = (_g.getPtX(_pt3) - _g.getPtX(_pt2)) * (_yt - _g.getPtY(_pt2)) - (_g.getPtY(_pt3) - _g.getPtY(_pt2)) * (_xt - _g.getPtX(_pt2));
+                double a2 = (_g.getPtX(_pt1) - _g.getPtX(_pt3)) * (_yt - _g.getPtY(_pt3)) - (_g.getPtY(_pt1) - _g.getPtY(_pt3)) * (_xt - _g.getPtX(_pt3));
+                double a3 = (_g.getPtX(_pt2) - _g.getPtX(_pt1)) * (_yt - _g.getPtY(_pt1)) - (_g.getPtY(_pt2) - _g.getPtY(_pt1)) * (_xt - _g.getPtX(_pt1));
+                double cmax = (_g.getPtX(_pt3) - _g.getPtX(_pt2)) * (_g.getPtY(_pt1) - _g.getPtY(_pt2)) - (_g.getPtY(_pt3) - _g.getPtY(_pt2)) * (_g.getPtX(_pt1) - _g.getPtX(_pt2));
+                d[i] =  (a1 * _v1 + a2 * _v2 + a3 * _v3) / cmax;
+            }
+        } else { // not a triangular interp. So using inverse distance weighting
+            double[] w = new double[neighbours_points.length];
+            double sw = 0;
+            for (int _ix = 0; _ix < neighbours_points.length; _ix++) {
+                w[_ix] = Math.sqrt(Math.pow(s.getGrid().getPtX(neighbours_points[_ix]) - _xt, 2) + Math.pow(s.getGrid().getPtY(neighbours_points[_ix]) - _yt, 2));
+                if (w[_ix] == 0) { // ths point in grid maches the target point. So use it.
+                    w = new double[neighbours_points.length];
+                    w[_ix] = 1;
+                    sw = 1;
+                    break;
+                } else {
+                    w[_ix] = 1/w[_ix]; // weight is inverse distance^2 (if none is 0) // impl. in org/fudaa/ctulu/interpolation/bilinear/InterpolatorBilinear
+                    sw += w[_ix];
+                }
+            }
+            for (int _ix = 0; _ix < neighbours_points.length; _ix++) {
+                w[_ix] = w[_ix] / sw; // normalize weight
+            }
+            for (int i = 0; i < d.length; i++) {
+                d[i] = 0;
+                for (int _ix = 0; _ix < neighbours_points.length; _ix++) {
+                    d[i] += s.getDonnees(i, variable_index)[neighbours_points[_ix]] * w[_ix];
+                }
+            }
+        }
+        return d;
+    }   
 
     public static void main(String[] args) {
         if (args==null || args.length<2) {
@@ -362,5 +390,17 @@ public class TelemacHelper {
             return a0;
         } else 
             return a;
+    }
+
+    static double[][] transpose(double[][] m){
+        if (m==null) return null;
+        if (m.length==0 || m[0].length==0) return new double[0][0];
+        double[][] tm = new double[m[0].length][];
+        for (int i = 0; i < tm.length; i++) {
+            for (int j = 0; j < tm[i].length; j++) {
+                tm[i][j] = m[j][i];
+            }
+        }
+        return tm;
     }
 }
