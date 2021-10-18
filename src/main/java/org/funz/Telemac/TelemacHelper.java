@@ -213,7 +213,6 @@ public class TelemacHelper {
                 d[i] = s.getDonnees(i, variable_index)[neighbours_points[0]] ;
             }
         } else if (neighbours_points.length == 3) { // Triangular inteprolation. this should be the main case
-            System.out.println("neighbours_points.length == 3");
             Grid _g = s.getGrid();
             int _pt1 = neighbours_points[0];
             int _pt2 = neighbours_points[1];
