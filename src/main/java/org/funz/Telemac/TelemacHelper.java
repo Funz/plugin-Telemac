@@ -149,53 +149,83 @@ public class TelemacHelper {
 
         for (int vi = 0; vi < s.getVariables().length; vi++) {
             String v = s.getVariables()[vi];
-            //System.err.println("> Reading " + v + " at:");
+            System.err.println("> Reading variable " + v + " at:");
             for (String p : poi.stringPropertyNames()) {
                 try {
-                //System.err.println(">  "+p);
                 if (poi.getProperty(p).contains(",") && poi.getProperty(p).contains(":")) { // so, this is a x0,y0:nx,ny:x1,y1 zone poi
-                    String cs = poi.get(p).toString();
-                    String cs0 = cs.substring(0, cs.indexOf(":"));
-                    double x0 = Double.parseDouble(cs0.substring(0, cs0.indexOf(",")));
-                    double y0 = Double.parseDouble(cs0.substring(cs0.indexOf(",") + 1));
-                    String csn = cs.substring(cs.indexOf(":")+1,cs.lastIndexOf(":"));
-                    int nx = Integer.parseInt(csn.substring(0, csn.indexOf(",")));
-                    int ny = Integer.parseInt(csn.substring(csn.indexOf(",")+1));
-                    String cs1 = cs.substring(cs.lastIndexOf(":")+1);
-                    double x1 = Double.parseDouble(cs1.substring(0, cs1.indexOf(",")));
-                    double y1 = Double.parseDouble(cs1.substring(cs1.indexOf(",") + 1));
-                    double[][] td = new double[nx*ny][s.getPasDeTemps().length];
-                    double[][] xy = new double[nx*ny][2];
-                    for (int nxi = 0; nxi < nx; nxi++) {
-                        double x = x0 + ((double)nxi)/((double)nx) * (x1-x0);
-                        for (int nyi = 0; nyi < ny; nyi++) {
-                            double y = y0 + ((double)nyi)/((double)ny) * (y1-y0);
-                            xy[nxi+nx*nyi][0] = x;
-                            xy[nxi+nx*nyi][1] = y;
+                    if (StringUtils.countMatches(poi.getProperty(p),",")==3) { //x0,y0:nx,ny:x1,y1
+                        System.err.println(">  matrix "+p+" :"+poi.getProperty(p));
+                        String cs = poi.get(p).toString();
+                        String cs0 = cs.substring(0, cs.indexOf(":"));
+                        double x0 = Double.parseDouble(cs0.substring(0, cs0.indexOf(",")));
+                        double y0 = Double.parseDouble(cs0.substring(cs0.indexOf(",") + 1));
+                        String csn = cs.substring(cs.indexOf(":")+1,cs.lastIndexOf(":"));
+                        int nx = Integer.parseInt(csn.substring(0, csn.indexOf(",")));
+                        int ny = Integer.parseInt(csn.substring(csn.indexOf(",")+1));
+                        String cs1 = cs.substring(cs.lastIndexOf(":")+1);
+                        double x1 = Double.parseDouble(cs1.substring(0, cs1.indexOf(",")));
+                        double y1 = Double.parseDouble(cs1.substring(cs1.indexOf(",") + 1));
+                        double[][] td = new double[nx*ny][s.getPasDeTemps().length];
+                        double[][] xy = new double[nx*ny][2];
+                        for (int nxi = 0; nxi < nx; nxi++) {
+                            double x = x0 + ((double)nxi)/((double)(nx-1)) * (x1-x0);
+                            for (int nyi = 0; nyi < ny; nyi++) {
+                                double y = y0 + ((double)nyi)/((double)(ny-1)) * (y1-y0);
+                                xy[nxi+nx*nyi][0] = x;
+                                xy[nxi+nx*nyi][1] = y;
+                                int ie = s.getGrid().getEltContainingXY(x, y);
+                                int[] Ix = s.getGrid().getElement(ie).getIndices();
+                                td[nxi+nx*nyi] = interp(x, y, vi, s, Ix);
+                            }
+                        }
+                        dat.put(RES_VAR.get(v) + "_" + p, transpose(td));
+                        dat.put("xy_" + p, (xy));
+                    } else if (StringUtils.countMatches(poi.getProperty(p),",")==2) { //x0,y0:n:x1,y1
+                        System.err.println(">  array "+p+" :"+poi.getProperty(p));
+                        String cs = poi.get(p).toString();
+                        String cs0 = cs.substring(0, cs.indexOf(":"));
+                        double x0 = Double.parseDouble(cs0.substring(0, cs0.indexOf(",")));
+                        double y0 = Double.parseDouble(cs0.substring(cs0.indexOf(",") + 1));
+                        String csn = cs.substring(cs.indexOf(":")+1,cs.lastIndexOf(":"));
+                        int n = Integer.parseInt(csn);
+                        String cs1 = cs.substring(cs.lastIndexOf(":")+1);
+                        double x1 = Double.parseDouble(cs1.substring(0, cs1.indexOf(",")));
+                        double y1 = Double.parseDouble(cs1.substring(cs1.indexOf(",") + 1));
+                        double[][] td = new double[n][s.getPasDeTemps().length];
+                        double[][] xy = new double[n][2];
+                        for (int ni = 0; ni < n; ni++) {
+                            double x = x0 + ((double)ni)/((double)(n-1)) * (x1-x0);
+                            double y = y0 + ((double)ni)/((double)(n-1)) * (y1-y0);
+                            xy[ni][0] = x;
+                            xy[ni][1] = y;
                             int ie = s.getGrid().getEltContainingXY(x, y);
                             int[] Ix = s.getGrid().getElement(ie).getIndices();
-                            td[nxi+nx*nyi] = interp(x, y, vi, s, Ix);
+                            td[ni] = interp(x, y, vi, s, Ix);
                         }
+                        dat.put(RES_VAR.get(v) + "_" + p, transpose(td));
+                        dat.put("xy_" + p, (xy));
+                    } else {
+                        System.err.println("!  unknonwn coords "+p+" :"+poi.getProperty(p));
+                        throw new IllegalArgumentException("point "+poi.getProperty(p)+ "is not in format x0,y0:nx,ny:x1,y1 or x0,y0:n:x1,y1");
                     }
-                    dat.put(RES_VAR.get(v) + "_" + p, transpose(td));
-                    dat.put("xy_" + p, xy);
                 } else if (poi.getProperty(p).contains(",")) { // so, this is a x,y poi, to get containing cell results
-                    double[] d = new double[s.getPasDeTemps().length];
+                    System.err.println(">  point "+p+" :"+poi.getProperty(p));
                     String cs = poi.get(p).toString();
                     double x = Double.parseDouble(cs.substring(0, cs.indexOf(",")));
                     double y = Double.parseDouble(cs.substring(cs.indexOf(",") + 1));
                     int ie = s.getGrid().getEltContainingXY(x, y);
                     int[] Ix = s.getGrid().getElement(ie).getIndices();
-                    dat.put(RES_VAR.get(v) + "_" + p, new double[][]{interp(x, y, vi, s, Ix)});
+                    dat.put(RES_VAR.get(v) + "_" + p, transpose(new double[][]{interp(x, y, vi, s, Ix)}));
                 } else { // so, it is a cell number result
+                    System.err.println(">  node "+p+" :"+poi.getProperty(p));
                     double[] d = new double[s.getPasDeTemps().length];
                     int ix = Integer.parseInt(poi.get(p).toString()) - 1;
                     for (int i = 0; i < d.length; i++) {
                         d[i] = s.getDonnees(i, vi)[ix];
                     }
-                    dat.put(RES_VAR.get(v) + "_" + p, new double[][]{d});
+                    dat.put(RES_VAR.get(v) + "_" + p, transpose(new double[][]{d}));
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 System.err.println("Failed to read " + v + " at: "+p+" :");
                 e.printStackTrace();
                 dat.put(RES_VAR.get(v) + "_" + p, new double[][]{});
@@ -345,11 +375,11 @@ public class TelemacHelper {
 
     static String printDoubleArray2D(double[][] d) {
         if (d==null || d.length==0) return null;
-        Object[] o = new Object[d[0].length];
+        Object[] o = new Object[d.length];
         for (int i = 0; i < o.length; i++) {
-            Object[] oi = new Object[d.length];
+            Object[] oi = new Object[d[0].length];
             for (int j = 0; j < oi.length; j++) {
-                oi[j] = d[j][i];
+                oi[j] = d[i][j];
             }
             o[i] = StringUtils.join(oi, ',');
         }
@@ -393,13 +423,16 @@ public class TelemacHelper {
 
     static double[][] transpose(double[][] m){
         if (m==null) return null;
+        //System.out.println("m: "+m.length+"x"+(m.length>0 ? m[0].length : 0));
         if (m.length==0 || m[0].length==0) return new double[0][0];
         double[][] tm = new double[m[0].length][];
         for (int i = 0; i < tm.length; i++) {
+            tm[i] = new double[m.length];
             for (int j = 0; j < tm[i].length; j++) {
                 tm[i][j] = m[j][i];
             }
         }
+        //System.out.println("tm: "+tm.length+"x"+(tm.length>0 ? tm[0].length : 0));
         return tm;
     }
 }
