@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<CASES>
+<CASE idx="0" calc="localhost:34633" start="1631829457329" end="0" state="1" dci="0" >
+	<NODE idx="" name="all-in-one" />
+	<INPUT name="null" >null</INPUT>
+
+	<OUTPUT name="T" ></OUTPUT>
+</CASE>
+</CASES>
