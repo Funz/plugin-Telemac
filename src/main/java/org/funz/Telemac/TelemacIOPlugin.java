@@ -183,7 +183,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
 
         for (String k:lout.keySet()) { // simplify if possible to 1D arrays
             if (lout.get(k) instanceof double[][])
-            lout.put(k,simplify((double[][])lout.get(k)));
+                lout.put(k,simplify((double[][])lout.get(k)));
         }
 
         return lout;
