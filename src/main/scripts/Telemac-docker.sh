@@ -9,8 +9,7 @@ fi
 
 NCPU=`grep ^cpu\\\\scores /proc/cpuinfo | uniq |  awk '{print $4}'`
 
-. $HOME/opt/telemac-mascaret/v7p3r1/telemac.profile
-telemac2d.py --ncsize $NCPU -c ubugfmpich2 $CAS &
+docker run `echo $PWD`:/tmp nicogodet/telemac:v8p2r1 bash -c "source ../setenv.sh && cd /tmp && telemac2d.py --ncsize=$NCPU $CAS" &
 
 PID=$!
 echo $PID >> PID
