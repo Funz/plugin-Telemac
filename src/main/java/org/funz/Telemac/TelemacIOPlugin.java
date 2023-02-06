@@ -103,7 +103,8 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
             if (variables_sorties_graphiques != null && !pois.isEmpty()) {
                 for (String o : variables_sorties_graphiques) {
                     for (String p : pois.stringPropertyNames()) {
-                        _output.put(o + "_" + p.replace(" ", ""), new double[]{Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()});
+                        if (p.charAt(0)!='.') // ignore ".abc" output
+                            _output.put(o + "_" + p.replace(" ", ""), new double[]{Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()});
                     }
                 }
 
@@ -160,8 +161,11 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                     lout.put("error","Could not find .cas file !");
                     return lout;
                 }
-
-                lout.putAll(TelemacHelper.extractPOIfromCASRES(cas, pois));
+                Map all = TelemacHelper.extractPOIfromCASRES(cas, pois);
+                for (String k : all.keySet())
+                    if (k.charAt(0)!='.') // ignore ".abc" output
+                        lout.put(k, all.get(k));
+                all = null;
             } catch (Exception e) {
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
@@ -169,16 +173,18 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 lout.put("error","Could not read coord "+pois+" in results of cas "+cas.getName()+" : "+sw.toString());
             }
         } else {
-        for (File f : csvfiles) {
-            try {
-                lout.put(f.getName().substring(0, f.getName().indexOf(".csv")), readDoubleArray2D(FileUtils.readFileToString(f)));
-            } catch (IOException ex) {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-                ex.printStackTrace(pw);
-                lout.put("error","Could not read csv file "+f.getName()+" : "+sw.toString());
+            for (File f : csvfiles) {
+                try {
+                    String k = f.getName().substring(0, f.getName().indexOf(".csv"));
+                    if (k.length()>3 && k.charAt(2)!='.') // ignore ".abc" output
+                        lout.put(k, readDoubleArray2D(FileUtils.readFileToString(f)));
+                } catch (IOException ex) {
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    ex.printStackTrace(pw);
+                    lout.put("error","Could not read csv file "+f.getName()+" : "+sw.toString());
+                }
             }
-        }
         }
 
         for (String k:lout.keySet()) { // simplify if possible to 1D arrays
