@@ -161,7 +161,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                     lout.put("error","Could not find .cas file !");
                     return lout;
                 }
-                Map all = TelemacHelper.extractPOIfromCASRES(cas, pois);
+                Map<String, double[][]> all = TelemacHelper.extractPOIfromCASRES(cas, pois);
                 for (String k : all.keySet())
                     if (k.charAt(0)!='.') // ignore ".abc" output
                         lout.put(k, all.get(k));
