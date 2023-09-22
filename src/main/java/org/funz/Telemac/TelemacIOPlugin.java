@@ -24,6 +24,7 @@ import org.funz.ioplugin.*;
 import org.funz.parameter.OutputFunctionExpression;
 import org.funz.parameter.SyntaxRules;
 import org.funz.util.Parser;
+
 import org.funz.parameter.InputFile;
 
 public class TelemacIOPlugin extends ExtendedIOPlugin {
@@ -74,15 +75,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
             }
             if (file.isFile() && file.getName().endsWith(".poi")) {
                 try {
-                    Properties poi =  new Properties();
-                    poi.load(new FileInputStream(file));
-                    
-                    Stream<Entry<Object, Object>> stream = poi.entrySet().stream();
-                    Map<String, String> m = stream.collect(Collectors.toMap(
-                        e -> String.valueOf(e.getKey()),
-                        e -> String.valueOf(e.getValue())));
-                    
-                    pois.putAll(m);
+                    pois.putAll(TelemacHelper.readPOI(file));  
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -134,15 +127,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                     }
                     if (file.isFile() && file.getName().endsWith(".poi")) {
                         try {
-                            Properties poi =  new Properties();
-                            poi.load(new FileInputStream(file));
-                            
-                            Stream<Entry<Object, Object>> stream = poi.entrySet().stream();
-                            Map<String, String> m = stream.collect(Collectors.toMap(
-                                e -> String.valueOf(e.getKey()),
-                                e -> String.valueOf(e.getValue())));
-                            
-                            pois.putAll(m);
+                            pois.putAll(TelemacHelper.readPOI(file));  
                         } catch (Exception ex) {
                             StringWriter sw = new StringWriter();
                             PrintWriter pw = new PrintWriter(sw);

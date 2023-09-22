@@ -1,6 +1,7 @@
 package org.funz.Telemac;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -8,7 +9,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.fudaa.dodico.ef.operation.EfLineSingleIntersectFinder;
@@ -129,6 +134,26 @@ public class TelemacHelper {
             }
         }
         return fde.toArray(new String[fde.size()]);
+    }
+
+    public static Map<String, String> readPOI(File poifile) throws Exception {
+        Map<String, String> m = new HashMap<String, String>();
+        FileInputStream fs =null;
+        Properties poi =  new Properties();
+        fs = new FileInputStream(poifile);
+        poi.load(fs);
+
+        Stream<Entry<Object, Object>> stream = poi.entrySet().stream();
+        m = stream.collect(Collectors.toMap(
+            e -> String.valueOf(e.getKey()),
+            e -> String.valueOf(e.getValue())));
+        if (fs != null)
+            try {
+                fs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return m;
     }
 
     static Map<String, double[][]> extractPOIfromCASRES(File cas, Properties poi) throws Exception {
