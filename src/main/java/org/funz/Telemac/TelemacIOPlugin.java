@@ -208,7 +208,7 @@ public class TelemacIOPlugin extends ExtendedIOPlugin {
                 if (file.isFile() && file.getName().endsWith(".poi"))
                 toimport.add(file);
             }
-            String[] deps = TelemacHelper.readFichiersDe(cas, ""); // get any possible deps
+            String[] deps = TelemacHelper.readFichiersDe(cas, "!RESULT"); // get any possible deps but results
             for (String d : deps) {
                 //System.err.println("? "+d);
                 File f = new File(cas.getAbsoluteFile().getParentFile(),d);

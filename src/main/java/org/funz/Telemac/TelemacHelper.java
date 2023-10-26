@@ -125,11 +125,21 @@ public class TelemacHelper {
                 continue;
             }
 
-            if ((lines[i].trim().contains(fichier_de_title) || lines[i].trim().contains(file_title)) && lines[i].trim().contains(what)) {
-                if (lines[i].trim().endsWith("=")) {
-                    fde.add(lines[i + 1].replace("'", "").trim());
-                } else {
-                    fde.add(Parser.after(lines[i], "=").replace("'", "").trim());
+            if (lines[i].trim().contains(fichier_de_title) || lines[i].trim().contains(file_title)) {
+                if (what.length>0 && what.charAt(0)=='!') { // support negative 'what'
+                    if (!lines[i].trim().contains(what.substring(1))) {
+                        if (lines[i].trim().endsWith("=")) {
+                            fde.add(lines[i + 1].replace("'", "").trim());
+                        } else {
+                            fde.add(Parser.after(lines[i], "=").replace("'", "").trim());
+                        }
+                    } 
+                } else if (lines[i].trim().contains(what)) {
+                    if (lines[i].trim().endsWith("=")) {
+                        fde.add(lines[i + 1].replace("'", "").trim());
+                    } else {
+                        fde.add(Parser.after(lines[i], "=").replace("'", "").trim());
+                    }
                 }
             }
         }
